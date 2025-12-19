@@ -20,7 +20,7 @@ class GitTest : AppCompatActivity() {
 }
 
 // PB: please try and make your first commit and push here to test
-// Haziq: ...
+// Haziq: ...hello testing hehe
 // Yi Jia -- HELLO
 // liujing -- hi
 //serene test2
