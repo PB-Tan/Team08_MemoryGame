@@ -28,3 +28,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+
+//Before the game can be played, a user must login with his username and password. A
+//Login activity presents the login screen to the user when the app starts.
+//2. Authenticate the provided user’s credentials with your backend .NET application. If
+//authentication fails, inform the user accordingly.

@@ -21,9 +21,16 @@ class PlayActivity : AppCompatActivity() {
 
         val leaderboardBtn = findViewById<Button>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {
-            // TODO: validate login later
+            // TODO: implement memory game activity later
             val intent = Intent(this, LeaderboardActivity::class.java)
             startActivity(intent)
         }
     }
 }
+
+//The Play activity uses the 6 selected images for the game play. At the start, it displays 12
+//placeholders (no images). Then when a placeholder is touched, it reveals the image
+//behind that placeholder. It then waits for a second placeholder to be touched and reveals
+//that too. If both images are identical, it leaves both images as they are (revealed to the
+//user). If they are different, it hides the two images and reverts to showing the two
+//placeholders.
