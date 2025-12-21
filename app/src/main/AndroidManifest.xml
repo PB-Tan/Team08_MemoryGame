@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -10,16 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Team08_MemoryGame">
-
-<!--        LOGIN PAGE -->
+        <activity
+            android:name=".LeaderboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FetchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GitTest"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.Team08_MemoryGame">
-
-        </activity>
-
-<!--        LOGO PAGE -->
+            android:theme="@style/Theme.Team08_MemoryGame"/>
         <activity
             android:name=".LogoActivity"
             android:exported="true"
@@ -29,39 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<!--        MAIN ACTIVITY -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
-
-<!--      FETCH PAGE   -->
-        <activity
-            android:name=".FetchActivity"
-            android:exported="false">
-        </activity>
-
-
-        <!--        PLAY PAGE-->
-        <activity
-            android:name=".PlayActivity"
-            android:exported="false">
-        </activity>
-
-<!--        LEADER BOARD PAGE-->
-        <activity
-            android:name=".LeaderboardActivity"
-            android:exported="false">
-        </activity>
-
-
-
-<!--        GIT TEST PAGE-->
-        <activity
-            android:name=".GitTest"
-            android:exported="false" />
-
     </application>
 
 </manifest>
