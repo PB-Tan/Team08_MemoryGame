@@ -48,28 +48,28 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/etUrl"
+                    android:id="@+id/url_field"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="输入图片 URL"/>
-
-                <Button
-                    android:id="@+id/btnDownload"
-                    android:text="确定"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imgView"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"/>
+                    android:text="https://pixabay.com/images/search/nature/"
+                    android:hint="Enter Image URL"/>
 
             <Button
-                android:id="@+id/btnDelete"
+                android:id="@+id/fetch_button"
+                android:text="Fetch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/delete_button"
                 android:layout_marginTop="16dp"
                 android:text="删除所有图片"
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
-            android:text="@string/start"
+            android:text="Play (Select six images)"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -128,9 +128,6 @@
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
