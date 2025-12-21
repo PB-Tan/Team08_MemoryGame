@@ -41,14 +41,15 @@ class FetchActivity : AppCompatActivity() {
         btnPlay.setOnClickListener {
             val selected = adapter.getSelectedImages()
             if (selected.size != 6) {
-                Toast.makeText(this, "请选择 6 张图片", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "please select 6 images", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val intent = Intent(this, PlayActivity::class.java)
+            val intent = Intent(this, SelectedPreviewActivity::class.java)
             intent.putStringArrayListExtra("images", ArrayList(selected))
             startActivity(intent)
         }
+
     }
 
     private fun fetchImages(pageUrl: String) {
