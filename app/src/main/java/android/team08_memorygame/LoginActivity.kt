@@ -1,6 +1,7 @@
 package android.team08_memorygame
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -22,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
         val loginButton= findViewById<Button>(R.id.login_button)
         loginButton.setOnClickListener {
+            MediaPlayer.create(this, R.raw.button_sound).start()
             val intent = Intent(this, FetchActivity::class.java)
             startActivity(intent)
         }

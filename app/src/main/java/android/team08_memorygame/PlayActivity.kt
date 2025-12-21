@@ -1,6 +1,7 @@
 package android.team08_memorygame
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.GridView
@@ -23,6 +24,7 @@ class PlayActivity : AppCompatActivity() {
 
         val scoreButton= findViewById<Button>(R.id.score_button)
         scoreButton.setOnClickListener {
+            MediaPlayer.create(this, R.raw.button_sound).start()
             // TODO: implement memory game activity later
             val intent = Intent(this, LeaderboardActivity::class.java)
             startActivity(intent)
@@ -30,6 +32,7 @@ class PlayActivity : AppCompatActivity() {
 
         val backButton= findViewById<ImageButton>(R.id.back)
         backButton.setOnClickListener {
+            MediaPlayer.create(this, R.raw.button_sound).start()
             val intent = Intent(this, FetchActivity::class.java)
             startActivity(intent)
         }

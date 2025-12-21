@@ -12,9 +12,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.nio.file.Files.find
+import android.media.MediaPlayer
+
 
 class LeaderboardActivity : AppCompatActivity() {
+
+    private lateinit var music: MediaPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,10 +29,21 @@ class LeaderboardActivity : AppCompatActivity() {
             insets
         }
 
+
+        // background music when the podium rises
+
+//        CREATE --> first create the music
+        music = MediaPlayer.create(this, R.raw.leaderboard_bg)
+        music.setVolume(1.0f, 1.0f)
+        music.start()
+
+
+
         val replayButton = findViewById<Button>(R.id.replay_button)
         replayButton.setOnClickListener {
             // TODO: displays leaderboard and return to fetch once done
 
+            MediaPlayer.create(this, R.raw.button_sound).start()
             val intent = Intent(this, FetchActivity::class.java)
             intent.putExtra("FROM_REPLAY", true)
             startActivity(intent)
@@ -37,9 +52,13 @@ class LeaderboardActivity : AppCompatActivity() {
 
         val backButton= findViewById<ImageButton>(R.id.back)
         backButton.setOnClickListener {
+            MediaPlayer.create(this, R.raw.button_sound).start()
             val intent = Intent(this, PlayActivity::class.java)
             startActivity(intent)
         }
+
+
+
 
 //        animation for the  twoer podiums
         val podium1 = findViewById<View>(R.id.podium1)
@@ -60,6 +79,13 @@ class LeaderboardActivity : AppCompatActivity() {
                 start()
             }
         }
+    }
+
+
+    //        DESTROY -> when we leave/come out from the screen  (background music)
+    override fun onDestroy() {
+        super.onDestroy()
+        music.release()
     }
 }
 

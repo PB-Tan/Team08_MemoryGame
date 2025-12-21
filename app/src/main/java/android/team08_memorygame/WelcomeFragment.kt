@@ -23,6 +23,7 @@ class WelcomeFragment : Fragment() {
 
         val forwardButton1 = view.findViewById<ImageButton>(R.id.forward1)
         forwardButton1.setOnClickListener {
+
             view.findNavController().navigate(R.id.action_WelcomeFragment_to_GiftFragment)
         }
         return view

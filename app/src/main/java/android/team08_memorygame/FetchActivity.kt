@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 import android.app.AlertDialog
+import android.media.MediaPlayer
 
 class FetchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +42,8 @@ class FetchActivity : AppCompatActivity() {
 
             //Once the first 20 images have been downloaded, allow the user to select 6 of them.
 
+
+            MediaPlayer.create(this, R.raw.button_sound).start()
             val intent = Intent(this, PlayActivity::class.java)
             startActivity(intent)
         }
