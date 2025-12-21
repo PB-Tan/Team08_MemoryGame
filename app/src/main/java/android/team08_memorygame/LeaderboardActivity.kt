@@ -7,6 +7,7 @@ import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,14 +25,23 @@ class LeaderboardActivity : AppCompatActivity() {
             insets
         }
 
-        val replayBtn = findViewById<Button>(R.id.replay_button)
-        replayBtn.setOnClickListener {
+        val replayButton = findViewById<Button>(R.id.replay_button)
+        replayButton.setOnClickListener {
             // TODO: displays leaderboard and return to fetch once done
+
             val intent = Intent(this, FetchActivity::class.java)
+            intent.putExtra("FROM_REPLAY", true)
+            startActivity(intent)
+            finish()
+        }
+
+        val backButton= findViewById<ImageButton>(R.id.back)
+        backButton.setOnClickListener {
+            val intent = Intent(this, PlayActivity::class.java)
             startActivity(intent)
         }
 
-//        animation for twoer podiums
+//        animation for the  twoer podiums
         val podium1 = findViewById<View>(R.id.podium1)
         val podium2 = findViewById<View>(R.id.podium2)
         val podium3 = findViewById<View>(R.id.podium3)

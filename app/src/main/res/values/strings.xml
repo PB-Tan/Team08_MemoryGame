@@ -5,7 +5,14 @@
     <string name="simple">Simple\nGame</string>
     <string name="simpletext">Sharpen your mind with every match!!</string>
 
+    <string name="leaderboard">LEADER BOARD</string>
     <string name="prize">Real\nPrizes!</string>
     <string name="prizetext">Win prizes when you reach the end of the stairs.</string>
     <string name="playagain">Play Again!</string>
+
+    <string name="game">LET\'S PLAY</string>
+    <string name="fetch">LET\'S FETCH</string>
+    <string name="start">Start</string>
+    <string name="score">Score</string>
+
 </resources>
