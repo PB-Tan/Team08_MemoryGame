@@ -8,19 +8,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+import android.app.AlertDialog
+
 class FetchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_fetch)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fetchactivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val playBtn = findViewById<Button>(R.id.play_button)
-        playBtn.setOnClickListener {
+        val fromReplay = intent.getBooleanExtra("FROM_REPLAY", false)
+        if (fromReplay) {
+            showWelcomePopup()
+        }
+
+        val startButton = findViewById<Button>(R.id.start_button)
+        startButton.setOnClickListener {
             // TODO: implement play button later once 6 images have been selected
             // TODO: implement fetch images activity
             // The Fetch activity allows a URL to be specified. Clicking on the Fetch button will extract
@@ -37,5 +44,20 @@ class FetchActivity : AppCompatActivity() {
             val intent = Intent(this, PlayActivity::class.java)
             startActivity(intent)
         }
+    }
+
+
+    private fun showWelcomePopup() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Welcome back!")
+            .setMessage("Ready to start a new game?")
+            .setCancelable(false)
+            .setPositiveButton("Ok")
+            { dialog, _ -> dialog.dismiss()}
+
+            .setNegativeButton("Cancel")
+            { _, _ ->finish() }.create()
+
+        dialog.show()
     }
 }

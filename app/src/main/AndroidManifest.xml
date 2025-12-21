@@ -10,40 +10,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Team08_MemoryGame">
+
+<!--        LOGIN PAGE -->
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Team08_MemoryGame">
 
         </activity>
 
+<!--        LOGO PAGE -->
         <activity
-            android:name=".LeaderboardActivity"
-            android:exported="true" >
+            android:name=".LogoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Team08_MemoryGame">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+<!--        MAIN ACTIVITY -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false">
+        </activity>
+
+<!--      FETCH PAGE   -->
+        <activity
+            android:name=".FetchActivity"
+            android:exported="false">
+        </activity>
+
+
+        <!--        PLAY PAGE-->
         <activity
             android:name=".PlayActivity"
             android:exported="false">
+        </activity>
 
-    </activity>
-
+<!--        LEADER BOARD PAGE-->
         <activity
-            android:name=".FetchActivity"
-            android:exported="false" />
+            android:name=".LeaderboardActivity"
+            android:exported="false">
+        </activity>
+
+
+
+<!--        GIT TEST PAGE-->
         <activity
             android:name=".GitTest"
             android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false">
 
-
-        </activity>
     </application>
 
 </manifest>
