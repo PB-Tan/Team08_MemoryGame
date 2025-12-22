@@ -11,6 +11,10 @@ android {
         version = release(36)
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "android.team08_memorygame"
         minSdk = 29
@@ -52,7 +56,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("org.jsoup:jsoup:1.17.2")
     implementation("org.jsoup:jsoup:1.17.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("io.coil-kt:coil:2.6.0")

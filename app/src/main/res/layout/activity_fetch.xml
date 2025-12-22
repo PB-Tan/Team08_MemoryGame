@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/fetchactivity"
     android:background="@drawable/leaderboard_gradient"
@@ -71,7 +70,7 @@
             <Button
                 android:id="@+id/delete_button"
                 android:layout_marginTop="16dp"
-                android:text="删除所有图片"
+                android:text="Delete all images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -89,16 +88,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-    <!-- Fetch Layout -->
-<!--   URL search bar -->
-
-
-
 
 
 <!--    FOOTER-->
