@@ -3,13 +3,48 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/playactivity"
-    android:background="@drawable/leaderboard_gradient"
+    android:padding="16dp"
     tools:context=".PlayActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Memory Game"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:numColumns="3"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toTopOf="@id/leader_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/leader_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Leaderboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <!-- Header Navigation Layout-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-             />
+            />
         <!-- header-->
         <TextView
             android:id="@+id/play_header"
@@ -48,7 +83,7 @@
             app:layout_constraintEnd_toStartOf="@id/sidebar"
             app:layout_constraintStart_toEndOf="@id/back"
             app:layout_constraintTop_toTopOf="parent"
-             />
+            />
         <!-- menu bar icon (for the hamburger)-->
         <ImageButton
             android:id="@+id/sidebar"
@@ -75,7 +110,7 @@
         android:layout_height="450dp"
         android:gravity="center"
         android:layout_marginHorizontal="30dp"
-       android:paddingVertical="20dp"
+        android:paddingVertical="20dp"
         android:numColumns="2"
         android:verticalSpacing="50dp"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -114,9 +149,4 @@
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
