@@ -6,7 +6,7 @@
 
     <EditText
         android:id="@+id/etUrl"
-        android:hint="输入网页 URL"
+        android:hint="Enter URL to get images from"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -16,6 +16,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="8dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"
+            android:max="20"
+            android:progress="0"/>
+
+        <TextView
+            android:id="@+id/tvProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -24,7 +50,7 @@
 
     <Button
         android:id="@+id/btnPlay"
-        android:text="Play (选择 6 张)"
+        android:text="Choose 6 to start game"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
