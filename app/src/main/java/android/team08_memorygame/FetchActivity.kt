@@ -85,11 +85,14 @@ class FetchActivity : AppCompatActivity() {
             try {
                 val urls = fetchImageUrls(pageUrl) //returns a big list
                     .distinct() // remove dupes
-                    .filter { it.endsWith(".jpg") || it.endsWith(".png") } //keeps jpg/png only
+                    //.filter { it.endsWith(".jpg") || it.endsWith(".png") } //taking out cuz previously alr filtered
                     .take(20) //limit to 20 image
 
                 runOnUiThread {
                     if (urls.isEmpty()) {
+
+                        //clear old images if no results found for new url
+                        adapter.setImages(emptyList())
                         // nothing to download, hide progress and warn user
                         progressContainer.visibility = View.GONE
                         Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show()
@@ -104,7 +107,7 @@ class FetchActivity : AppCompatActivity() {
                     // 🔹 NEW: stop and hide progress bar on error
                     cancelSimulatedProgress()
                     progressContainer.visibility = View.GONE
-                    Toast.makeText(this, "解析失败 network error?", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "error - please check input URL", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
@@ -139,17 +142,25 @@ class FetchActivity : AppCompatActivity() {
 
             // 4. StockSnap 特殊处理： --- workaround for stocksnap(cuz it uses thumbnail urls, and it upgrades the thumbnail to original image)
             //    把缩略图地址替换为原图地址（避免 CDN 403）
-            if (src.contains("cdn.stocksnap.io")) {
-                src = src
-                    .replace("/img-thumbs/280h/", "/img-originals/")
-                    .replace("/img-thumbs/320h/", "/img-originals/")
-            }
+//            if (src.contains("cdn.stocksnap.io")) {
+//                src = src
+//                    .replace("/img-thumbs/280h/", "/img-originals/")
+//                    .replace("/img-thumbs/320h/", "/img-originals/")
+//            }
 
             // 5. 基本过滤 --- filter valid images
             if (
                 src.isNotEmpty() &&
                 (src.endsWith(".jpg") || src.endsWith(".jpeg") || src.endsWith(".png"))
             ) {
+                // 🔹 Extra filtering for StockSnap: keep only real photo thumbnails --- prev it kept downloading a smilely face
+                if (pageUrl.contains("stocksnap.io")) {
+                    // their thumbnails live under /img-thumbs/
+                    if (!src.contains("/img-thumbs/")) {
+                        continue   // skip smileys, logos, other UI icons
+                    }
+                }
+
                 imageUrls.add(src)
             }
         }
@@ -165,7 +176,12 @@ class FetchActivity : AppCompatActivity() {
 
         progressBar.max = totalImagesToDownload
         progressBar.progress = 0
-        tvProgress.text = "Downloading 0 of $totalImagesToDownload..."
+        tvProgress.text =
+            if (totalImagesToDownload < 20) {
+                "Downloading 0 of $totalImagesToDownload... (only $totalImagesToDownload images available)"
+            } else {
+                "Downloading 0 of $totalImagesToDownload..."
+            }
         progressContainer.visibility = View.VISIBLE
 
         simulateNextStep()
@@ -173,7 +189,12 @@ class FetchActivity : AppCompatActivity() {
 
     private fun simulateNextStep() {
         if (downloadedCount >= totalImagesToDownload) {
-            tvProgress.text = "Download completed"
+            tvProgress.text =
+                if (totalImagesToDownload < 20) {
+                    "Download completed (only $totalImagesToDownload images available)"
+                } else {
+                    "Download completed"
+                }
             return
         }
 
@@ -194,15 +215,28 @@ class FetchActivity : AppCompatActivity() {
             progressBar.progress = downloadedCount
 
             if (downloadedCount < totalImagesToDownload) {
-                tvProgress.text = "Downloading $downloadedCount of $totalImagesToDownload..."
-                simulateNextStep()   // schedule next jump
+                tvProgress.text =
+                    if (totalImagesToDownload < 20) {
+                        "Downloading $downloadedCount of $totalImagesToDownload... (only $totalImagesToDownload images available)"
+                    } else {
+                        "Downloading $downloadedCount of $totalImagesToDownload..."
+                    }
+                // schedule the *next* step
+                simulateNextStep()
             } else {
-                tvProgress.text = "Download completed"
+                tvProgress.text =
+                    if (totalImagesToDownload < 20) {
+                        "Download completed (only $totalImagesToDownload images available)"
+                    } else {
+                        "Download completed"
+                    }
             }
         }
 
+        // 🔹 IMPORTANT: schedule the runnable for the *first* time here
         handler.postDelayed(simulateRunnable!!, delayMs)
     }
+
 
     private fun cancelSimulatedProgress() {
         simulateRunnable?.let { handler.removeCallbacks(it) }
