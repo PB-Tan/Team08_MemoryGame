@@ -104,49 +104,49 @@
     <!-- Grid view Layout -->
     <!--bocx selection-->
 
-    <GridView
-        android:id="@+id/playgrid"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:gravity="center"
-        android:layout_marginHorizontal="30dp"
-        android:paddingVertical="20dp"
-        android:numColumns="2"
-        android:verticalSpacing="50dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toTopOf="@id/footer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/card_item"
-        />
+<!--    <GridView-->
+<!--        android:id="@+id/playgrid"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="450dp"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        android:paddingVertical="20dp"-->
+<!--        android:numColumns="2"-->
+<!--        android:verticalSpacing="50dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/header"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:listitem="@layout/card_item"-->
+<!--        />-->
 
 
 
     <!--    FOOTER-->
     <!--    Score button layout-->
-    <LinearLayout
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center"
-        android:elevation="12dp"
-        android:background="#99FFFFFF"
-        >
+<!--    <LinearLayout-->
+<!--        android:id="@+id/footer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:gravity="center"-->
+<!--        android:elevation="12dp"-->
+<!--        android:background="#99FFFFFF"-->
+<!--        >-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/score_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:text="@string/score"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_marginVertical="20dp"
-            android:elevation="10dp"
-            android:background="@drawable/embossed_button">
-        </androidx.appcompat.widget.AppCompatButton>
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/score_button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="40dp"-->
+<!--            android:text="@string/score"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:layout_marginVertical="20dp"-->
+<!--            android:elevation="10dp"-->
+<!--            android:background="@drawable/embossed_button">-->
+<!--        </androidx.appcompat.widget.AppCompatButton>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

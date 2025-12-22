@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "9lXaEtuUNCuKW+Ih8YegoQWSrmYolGqHGhw1BxQ6GV4=",
-  "Source": "MemoryGameAPI",
-  "BasePath": "_content/MemoryGameAPI",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"M9QRnuli6db6VmbwBfmvPkTbTnhXrV97y2gNO4CvVmI=","Source":"MemoryGameAPI","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

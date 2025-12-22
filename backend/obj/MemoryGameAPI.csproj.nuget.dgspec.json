@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "D:\\personalFile\\memoeyGame\\serene_memoryGame\\backend\\MemoryGameAPI.csproj": {}
+    "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {}
   },
   "projects": {
-    "D:\\personalFile\\memoeyGame\\serene_memoryGame\\backend\\MemoryGameAPI.csproj": {
+    "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\personalFile\\memoeyGame\\serene_memoryGame\\backend\\MemoryGameAPI.csproj",
+        "projectUniqueName": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
         "projectName": "MemoryGameAPI",
-        "projectPath": "D:\\personalFile\\memoeyGame\\serene_memoryGame\\backend\\MemoryGameAPI.csproj",
-        "packagesPath": "C:\\Users\\ROG\\.nuget\\packages\\",
-        "outputPath": "D:\\personalFile\\memoeyGame\\serene_memoryGame\\backend\\obj\\",
+        "projectPath": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
+        "packagesPath": "C:\\Users\\tanph\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ROG\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\tanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -69,6 +76,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -77,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

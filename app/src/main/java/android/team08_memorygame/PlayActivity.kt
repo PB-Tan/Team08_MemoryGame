@@ -6,13 +6,13 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.GridView
-import android.widget.Toast
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.team08_memorygame.R
+
 class PlayActivity : AppCompatActivity() {
     private var cardList = mutableListOf<Card>()
     private lateinit var adapter: MemoryAdapter
@@ -39,7 +39,7 @@ class PlayActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val backButton= findViewById<ImageButton>(R.id.back)
+        val backButton = findViewById<ImageButton>(R.id.back)
         backButton.setOnClickListener {
             val intent = Intent(this, FetchActivity::class.java)
             startActivity(intent)
@@ -49,15 +49,16 @@ class PlayActivity : AppCompatActivity() {
     }
 
     private fun setupGame() {
-        val images = listOf(   //can be change
-            R.drawable.img_1,
-            R.drawable.img_2,
-            R.drawable.img_3,
-            R.drawable.img_4,
-            R.drawable.img_5,
-            R.drawable.img_6
-        )
-    //copy pictures
+        val intentImages = intent.getStringArrayListExtra("images")
+        
+        if (intentImages == null || intentImages.size != 6) {
+            Toast.makeText(this, "Game requires 6 images from selection", Toast.LENGTH_LONG).show()
+            return
+        }
+        
+        val images = intentImages.toList()
+
+        //copy pictures
         val allImages = (images + images).shuffled()
         //put pics in a container
         cardList.clear()
@@ -67,9 +68,9 @@ class PlayActivity : AppCompatActivity() {
 
         // 3. bind the Adapter
         val gridView = findViewById<GridView>(R.id.gridView)
-        adapter = MemoryAdapter(this, cardList) // 使用外部文件定义的类
+        adapter = MemoryAdapter(this, cardList)
         gridView.adapter = adapter
-       //_ means no need
+        
         gridView.setOnItemClickListener { _, _, position, _ ->
             onCardClicked(position)
         }
@@ -94,7 +95,7 @@ class PlayActivity : AppCompatActivity() {
 
             val firstCard = cardList[firstSelectedPosition]
 
-            if (firstCard.imageId == currentCard.imageId) {
+            if (firstCard.imageUrl == currentCard.imageUrl) {
 
                 firstCard.isMatched = true
                 currentCard.isMatched = true

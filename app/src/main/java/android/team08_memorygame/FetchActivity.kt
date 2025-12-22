@@ -57,7 +57,8 @@ class FetchActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                val intent = Intent(this@FetchActivity, SelectedPreviewActivity::class.java)
+                // Pass the 6 images to PlayActivity
+                val intent = Intent(this@FetchActivity, PlayActivity::class.java)
                 intent.putStringArrayListExtra("images", ArrayList(selected))
                 startActivity(intent)
             }
