@@ -1,25 +1,20 @@
 package android.team08_memorygame
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.jsoup.Jsoup
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.request.target.Target
+import kotlin.random.Random
 
 class FetchActivity : AppCompatActivity() {
 
@@ -29,9 +24,15 @@ class FetchActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ImageAdapter
 
+    // view for progress bar
     private lateinit var progressContainer: View
     private lateinit var progressBar: ProgressBar
     private lateinit var tvProgress: TextView
+
+    // for simulated progress
+    private val handler = Handler(Looper.getMainLooper())
+    private val random = Random(System.currentTimeMillis())
+    private var simulateRunnable: Runnable? = null
     private var totalImagesToDownload = 20
     private var downloadedCount = 0
 
@@ -56,7 +57,6 @@ class FetchActivity : AppCompatActivity() {
         btnFetch.setOnClickListener {
             val pageUrl = etUrl.text.toString()
             if (pageUrl.isNotEmpty()) {
-                startRealTimeProgress()
                 fetchImages(pageUrl)
             }
         }
@@ -76,41 +76,40 @@ class FetchActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelSimulatedProgress()
+    }
     private fun fetchImages(pageUrl: String) {
         Thread {
             try {
-                val urls = fetchImageUrls(pageUrl)//returns a big list
+                val urls = fetchImageUrls(pageUrl) //returns a big list
                     .distinct() // remove dupes
                     .filter { it.endsWith(".jpg") || it.endsWith(".png") } //keeps jpg/png only
                     .take(20) //limit to 20 image
 
                 runOnUiThread {
                     if (urls.isEmpty()) {
+                        // nothing to download, hide progress and warn user
                         progressContainer.visibility = View.GONE
-                        Toast.makeText(this, "no images found", Toast.LENGTH_SHORT).show()
-                        return@runOnUiThread
+                        Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // 🔹 NEW: start simulated progress based on how many URLs we actually have
+                        startSimulatedProgress(urls.size)
+                        adapter.setImages(urls) // urls copied into adapter
                     }
-
-                    // set progress based on the REAL number of URLs (could be < 20)
-                    totalImagesToDownload = urls.size
-                    downloadedCount = 0
-
-                    progressBar.max = totalImagesToDownload
-                    progressBar.progress = 0
-                    tvProgress.text = "Downloading 0 of $totalImagesToDownload..."
-
-                    // start downloading all images into Glide's cache
-                    preloadImages(urls)
-
-                    adapter.setImages(urls) // urls copied into adapter
                 }
             } catch (e: Exception) {
                 runOnUiThread {
+                    // 🔹 NEW: stop and hide progress bar on error
+                    cancelSimulatedProgress()
+                    progressContainer.visibility = View.GONE
                     Toast.makeText(this, "解析失败 network error?", Toast.LENGTH_SHORT).show()
                 }
             }
         }.start()
     }
+
 
     // this is the part that fetches the ImageURLs strings
     private fun fetchImageUrls(pageUrl: String): List<String> {
@@ -157,54 +156,37 @@ class FetchActivity : AppCompatActivity() {
 
         return imageUrls
     }
+    private fun startSimulatedProgress(total: Int) {
+        // cancel any old simulation
+        cancelSimulatedProgress()
 
-    // called when user starts a new fetch
-    private fun startRealTimeProgress() {
+        totalImagesToDownload = total
         downloadedCount = 0
-        totalImagesToDownload = 20   // or adapt to actual size later
+
         progressBar.max = totalImagesToDownload
         progressBar.progress = 0
         tvProgress.text = "Downloading 0 of $totalImagesToDownload..."
         progressContainer.visibility = View.VISIBLE
+
+        simulateNextStep()
     }
 
-    // called by adapter whenever an image finishes loading
-    private fun preloadImages(urls: List<String>) {
-        for (url in urls) {
-            Glide.with(this)
-                .load(glideUrlWithUA(url))
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        onSingleImageFinished()
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        onSingleImageFinished()
-                        return false
-                    }
-                })
-                .preload()
+    private fun simulateNextStep() {
+        if (downloadedCount >= totalImagesToDownload) {
+            tvProgress.text = "Download completed"
+            return
         }
-    }
 
+        // random delay between updates (e.g. 150–400 ms)
+        val delayMs = random.nextLong(150, 400)
 
-    // one image (success or fail) has finished downloading
-    private fun onSingleImageFinished() {
-        downloadedCount++
+        simulateRunnable = Runnable {
+            val remaining = totalImagesToDownload - downloadedCount
+            // random jump by 1–4, but don’t exceed remaining
+            val stepMax = if (remaining >= 4) 4 else remaining
+            val step = random.nextInt(1, stepMax + 1)
 
-        runOnUiThread {
+            downloadedCount += step
             if (downloadedCount > totalImagesToDownload) {
                 downloadedCount = totalImagesToDownload
             }
@@ -213,21 +195,21 @@ class FetchActivity : AppCompatActivity() {
 
             if (downloadedCount < totalImagesToDownload) {
                 tvProgress.text = "Downloading $downloadedCount of $totalImagesToDownload..."
+                simulateNextStep()   // schedule next jump
             } else {
                 tvProgress.text = "Download completed"
             }
         }
+
+        handler.postDelayed(simulateRunnable!!, delayMs)
     }
 
-    // helper to add User-Agent header, same idea as in adapter
-    private fun glideUrlWithUA(url: String): GlideUrl {
-        return GlideUrl(
-            url,
-            LazyHeaders.Builder()
-                .addHeader("User-Agent", "Mozilla/5.0")
-                .build()
-        )
+    private fun cancelSimulatedProgress() {
+        simulateRunnable?.let { handler.removeCallbacks(it) }
+        simulateRunnable = null
     }
+
+
 }
 
 
