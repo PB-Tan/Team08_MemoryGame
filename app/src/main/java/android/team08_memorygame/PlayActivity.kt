@@ -8,14 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.io.File
 
 class PlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityPlayBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
+        binding = ActivityPlayBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -35,6 +34,14 @@ class PlayActivity : AppCompatActivity() {
         val boardImages = (chosenImages+chosenImages).map{ it.name }.shuffled()
         val adapter = MemoryBoardAdapter(this,boardImages)
         binding.rvBoard.adapter=adapter
+
+        // inflating the ad banner fragment using code instead of the android:name line in the xml like in notes
+//        if(savedInstanceState == null){
+//            supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view,
+//                AdBannerFragment()).commit()
+//        }
+
+
 
         val leaderboardBtn = findViewById<Button>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {

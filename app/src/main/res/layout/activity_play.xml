@@ -17,12 +17,27 @@
         tools:itemCount="12"
         tools:listitem="@layout/card_layout"
 
-        app:layout_constraintBottom_toTopOf="@id/leader_button"
+        app:layout_constraintBottom_toTopOf="@id/fragment_container_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp"
         />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_container_view"
+
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/ad_nav_graph"
+
+        app:defaultNavHost="false"
+
+        app:layout_constraintTop_toBottomOf="@id/rvBoard"
+        app:layout_constraintBottom_toTopOf="@id/leader_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:context=".PlayActivity"/>
 
     <Button
         android:id="@+id/leader_button"
@@ -32,5 +47,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvBoard" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_container_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

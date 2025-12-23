@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ad_nav_graph"
+    app:startDestination="@id/adBannerFragment">
+
+    <fragment
+        android:id="@+id/adBannerFragment"
+        android:name="android.team08_memorygame.AdBannerFragment">
+        <action
+            android:id="@+id/action_adBannerFragment_to_adWebViewFragment"
+            app:destination="@+id/adWebViewFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/adWebViewFragment"
+        android:name="android.team08_memorygame.AdWebViewFragment"/>
+
+</navigation>
