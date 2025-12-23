@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ad_nav_graph"
     app:startDestination="@id/adBannerFragment">
 
@@ -12,8 +13,20 @@
             app:destination="@+id/adWebViewFragment"/>
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/adWebViewFragment"
-        android:name="android.team08_memorygame.AdWebViewFragment"/>
+        android:name="android.team08_memorygame.AdWebViewFragment"
+        android:label="AdViewFragment"
+        tools:layout="@layout/fragment_ad_web_view">
+        <action
+            android:id="@+id/action_adWebViewFragment_to_premiumFragment"
+            app:destination="@+id/premiumFragment"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/premiumFragment"
+        android:name="android.team08_memorygame.PremiumFragment"
+        android:label="Premium"
+        tools:layout="@layout/fragment_premium"/>
 
 </navigation>
