@@ -3,6 +3,7 @@ package android.team08_memorygame
 import android.content.Intent
 import android.os.Bundle
 import android.team08_memorygame.databinding.ActivityPlayBinding
+import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ class PlayActivity : AppCompatActivity() {
             insets
         }
 
+        // -----ADAPTER SET UP------
         // get all files from app specific storage
         val allFiles = filesDir.listFiles()
         // get images that has these extensions
@@ -35,13 +37,12 @@ class PlayActivity : AppCompatActivity() {
         val adapter = MemoryBoardAdapter(this,boardImages)
         binding.rvBoard.adapter=adapter
 
-        // inflating the ad banner fragment using code instead of the android:name line in the xml like in notes
-//        if(savedInstanceState == null){
-//            supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view,
-//                AdBannerFragment()).commit()
-//        }
-
-
+        //-----CHECK PREMIUM STATUS-----
+        if(UserManager.userIsPremium){
+            binding.fragmentContainerView.visibility = View.GONE
+        } else {
+            binding.fragmentContainerView.visibility = View.VISIBLE
+        }
 
         val leaderboardBtn = findViewById<Button>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {

@@ -28,7 +28,11 @@ class AdWebViewFragment : androidx.fragment.app.DialogFragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAdWebViewBinding.inflate(inflater,container,false)
         initUI()
-        binding.webview.loadUrl("https://www.google.com")
+
+        // get url from banner
+        // use ? in case its null
+        val urlPayload = arguments?.getString("url_to_load")
+        binding.webview.loadUrl(urlPayload?:"https://www.google.com")
         return binding.root
     }
 
