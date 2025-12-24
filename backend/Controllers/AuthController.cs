@@ -19,55 +19,57 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// 用户登录
+    /// User login
     /// POST /api/auth/login
     /// </summary>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
-        _logger.LogInformation($"登录尝试: {request.Username}");
+        _logger.LogInformation($"Login attempt: {request.Username}");
 
-        // 验证输入
+        // Validate input
         if (string.IsNullOrWhiteSpace(request.Username) ||
             string.IsNullOrWhiteSpace(request.Password))
         {
             return Ok(new LoginResponse
             {
                 Success = false,
-                Message = "用户名和密码不能为空"
+                Message = "Username and password cannot be empty"
             });
         }
 
-        // 查找用户
+        // Find user, authenticating with database
         var user = await _context.Users
             .FirstOrDefaultAsync(u =>
                 u.Username.ToLower() == request.Username.ToLower() &&
                 u.Password == request.Password);
 
+        // if user is not found
         if (user == null)
         {
-            _logger.LogWarning($"登录失败: {request.Username}");
+            _logger.LogWarning($"Login failed: {request.Username}");
             return Ok(new LoginResponse
             {
                 Success = false,
-                Message = "用户名或密码错误"
+                Message = "Username or password is incorrect"
             });
         }
 
-        // 登录成功
-        _logger.LogInformation($"登录成功: {user.Username}");
+        // Login successful
+        _logger.LogInformation($"Login successful: {user.Username}");
+        //implement GUID after successful authentication...
         return Ok(new LoginResponse
         {
             Success = true,
             UserId = user.UserId,
             Username = user.Username,
             IsPaid = user.IsPaidUser,
-            Message = "登录成功"
+            Message = "Login successful"
         });
     }
 
     /// <summary>
-    /// 获取所有用户（测试用）
+    /// Get all users (for testing)
     /// GET /api/auth/users
     /// </summary>
     [HttpGet("users")]

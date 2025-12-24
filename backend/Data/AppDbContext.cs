@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // User 配置
+        // User 
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId);
@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Password).IsRequired().HasMaxLength(100);
         });
 
-        // Score 配置
+        // Score 
         modelBuilder.Entity<Score>(entity =>
         {
             entity.HasKey(e => e.ScoreId);
@@ -37,7 +37,7 @@ public class AppDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Room 配置
+        // Room 
         modelBuilder.Entity<Room>(entity =>
         {
             entity.HasKey(e => e.RoomId);
@@ -47,7 +47,7 @@ public class AppDbContext : DbContext
             entity.HasIndex(e => e.RoomCode).IsUnique();
         });
 
-        // RoomMember 配置
+        // RoomMember 
         modelBuilder.Entity<RoomMember>(entity =>
         {
             entity.HasKey(e => e.Id);

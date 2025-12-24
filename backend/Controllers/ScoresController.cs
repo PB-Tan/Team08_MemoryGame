@@ -19,35 +19,36 @@ public class ScoresController : ControllerBase
     }
 
     /// <summary>
-    /// 提交游戏分数
+    /// Submit game score
     /// POST /api/scores
     /// </summary>
     [HttpPost]
     public async Task<IActionResult> SubmitScore([FromBody] ScoreRequest request)
     {
-        _logger.LogInformation($"收到分数提交: {request.Username} - {request.CompletionTimeSeconds}秒");
+        //incoming request body should contain username from session after authentication?
+        _logger.LogInformation($"Received score submission: {request.Username} - {request.CompletionTimeSeconds} seconds");
 
-        // 验证输入
+        // Validate input
         if (string.IsNullOrWhiteSpace(request.Username))
         {
-            return BadRequest(new { success = false, message = "用户名不能为空" });
+            return BadRequest(new { success = false, message = "Username cannot be empty" });
         }
 
         if (request.CompletionTimeSeconds <= 0)
         {
-            return BadRequest(new { success = false, message = "无效的完成时间" });
+            return BadRequest(new { success = false, message = "Invalid completion time" });
         }
 
-        // 查找用户ID
+        // Check whether user exists inside database
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Username.ToLower() == request.Username.ToLower());
 
         if (user == null)
         {
-            return BadRequest(new { success = false, message = "用户不存在" });
+            return BadRequest(new { success = false, message = "User does not exist" });
         }
 
-        // 查找用户的现有最佳成绩
+        // Find user's existing best score
         var existingScore = await _context.Scores
             .Where(s => s.UserId == user.UserId)
             .OrderBy(s => s.CompletionTimeSeconds)
@@ -55,10 +56,10 @@ public class ScoresController : ControllerBase
 
         if (existingScore == null || request.CompletionTimeSeconds < existingScore.CompletionTimeSeconds)
         {
-            // 如果没有现有成绩，或新成绩更好，则保存
+            // If no existing score or new score is better, save it
             if (existingScore == null)
             {
-                // 创建新的分数记录
+                // Create new score record
                 var score = new Score
                 {
                     UserId = user.UserId,
@@ -67,29 +68,31 @@ public class ScoresController : ControllerBase
                     CreatedAt = DateTime.Now
                 };
 
+                //saving the best score/new score
                 _context.Scores.Add(score);
             }
             else
             {
-                // 更新现有成绩
+                // update existing score to best score 
                 existingScore.CompletionTimeSeconds = request.CompletionTimeSeconds;
                 existingScore.CreatedAt = DateTime.Now;
             }
 
             await _context.SaveChangesAsync();
-            _logger.LogInformation($"分数保存成功: {user.Username} - 最佳成绩: {request.CompletionTimeSeconds}秒");
-            return Ok(new { success = true, message = "分数提交成功", isNewBest = true });
+            _logger.LogInformation($"Score saved successfully: {user.Username} - Best time: {request.CompletionTimeSeconds} seconds");
+            return Ok(new { success = true, message = "Score submitted successfully", isNewBest = true });
         }
         else
         {
-            // 成绩不如现有最佳成绩，不保存
-            _logger.LogInformation($"分数未保存: {user.Username} - 当前最佳: {existingScore.CompletionTimeSeconds}秒，新成绩: {request.CompletionTimeSeconds}秒");
-            return Ok(new { success = true, message = "成绩未超越最佳记录", isNewBest = false });
+            // score 
+            // Score not better than existing best, not saved
+            _logger.LogInformation($"Score not saved: {user.Username} - Current best: {existingScore.CompletionTimeSeconds} seconds, new score: {request.CompletionTimeSeconds} seconds");
+            return Ok(new { success = true, message = "Score did not beat best record", isNewBest = false });
         }
     }
 
     /// <summary>
-    /// 获取排行榜 Top 5
+    /// Get leaderboard Top 5
     /// GET /api/scores/top5
     /// </summary>
     [HttpGet("top5")]
@@ -113,7 +116,7 @@ public class ScoresController : ControllerBase
     }
 
     /// <summary>
-    /// 获取所有分数（调试用）
+    /// Get all scores (for debugging)
     /// GET /api/scores
     /// </summary>
     [HttpGet]
@@ -127,7 +130,7 @@ public class ScoresController : ControllerBase
     }
 
     /// <summary>
-    /// 清空所有分数（调试用）
+    /// Clear all scores (for debugging)
     /// DELETE /api/scores
     /// </summary>
     [HttpDelete]
@@ -136,6 +139,6 @@ public class ScoresController : ControllerBase
         _context.Scores.RemoveRange(_context.Scores);
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "所有分数已清空" });
+        return Ok(new { message = "All scores cleared" });
     }
 }

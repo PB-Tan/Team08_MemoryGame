@@ -68,7 +68,8 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingTop="8dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progressBar"

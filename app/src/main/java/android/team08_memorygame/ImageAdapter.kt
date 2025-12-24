@@ -16,7 +16,7 @@ class ImageAdapter() : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     private val images = mutableListOf<String>()
     private val selected = mutableSetOf<String>()
-
+    private var currentThread: Thread? = null
 
 
     fun glideUrlWithUA(url: String): GlideUrl {
@@ -64,15 +64,24 @@ class ImageAdapter() : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     }
 
     fun setImages(newImages: List<String>) {
+        currentThread?.interrupt()
+
         images.clear()
         selected.clear()
         notifyDataSetChanged()
 
         // Start a background thread to add images one by one
-        Thread {
+        val thread = Thread {
             for (url in newImages) {
                 try {
-                    Thread.sleep(200)
+                    Thread.sleep(300)
+                } catch (e: InterruptedException) {
+                    Handler(Looper.getMainLooper()).post {
+                        images.clear()
+                        selected.clear()
+                        notifyDataSetChanged()
+                    }
+                    return@Thread
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -84,7 +93,9 @@ class ImageAdapter() : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
                     notifyItemInserted(images.size - 1)
                 }
             }
-        }.start()
+        }
+        currentThread = thread
+        thread.start()
     }
 
     fun getSelectedImages(): List<String> = selected.toList()
