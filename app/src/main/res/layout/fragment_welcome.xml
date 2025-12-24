@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/backgroundimg"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Memory Game"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"/>
+
+    <Button
+        android:id="@+id/btnSignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign In and Play"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/button_oval"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnGuest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Play as Guest"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/button_oval"/>
+</LinearLayout>

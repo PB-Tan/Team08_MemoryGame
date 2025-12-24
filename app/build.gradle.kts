@@ -8,7 +8,7 @@ android {
     compileSdk {
         version = release(36)
     }
-
+    buildFeatures { viewBinding = true}
     defaultConfig {
         applicationId = "android.team08_memorygame"
         minSdk = 29
@@ -43,7 +43,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // ✅ Retrofit + Gson
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // (Optional) OkHttp logging interceptor for debugging API calls
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
 }

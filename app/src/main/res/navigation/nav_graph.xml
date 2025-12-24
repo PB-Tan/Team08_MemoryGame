@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcomeFragment">
+
+    <!-- Welcome Fragment -->
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="android.team08_memorygame.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
+
+        <action
+            android:id="@+id/action_welcomeFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+
+        <action
+            android:id="@+id/action_welcomeFragment_to_fetchFragment"
+            app:destination="@id/fetchFragment" />
+    </fragment>
+
+    <!-- SignIn Fragment -->
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="android.team08_memorygame.SignInFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in">
+
+        <action
+            android:id="@+id/action_signInFragment_to_fetchFragment"
+            app:destination="@id/fetchFragment" />
+    </fragment>
+
+    <!-- Fetch Fragment -->
+    <fragment
+        android:id="@+id/fetchFragment"
+        android:name="android.team08_memorygame.FetchFragment"
+        android:label="Fetch"
+        tools:layout="@layout/fragment_fetch">
+
+        <argument
+            android:name="USERNAME"
+            app:argType="string"
+            android:defaultValue="GuestUser" />
+
+        <action
+            android:id="@+id/action_fetchFragment_to_playFragment"
+            app:destination="@id/playFragment" />
+    </fragment>
+
+    <!-- Play Fragment -->
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="android.team08_memorygame.PlayFragment"
+        android:label="Play"
+        tools:layout="@layout/fragment_play">
+
+        <argument
+            android:name="USERNAME"
+            app:argType="string"
+            android:defaultValue="GuestUser" />
+    </fragment>
+</navigation>

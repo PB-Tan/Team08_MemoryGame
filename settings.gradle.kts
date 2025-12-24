@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Team08_MemoryGame"
 include(":app")
- 
+include(":MemoryGame")

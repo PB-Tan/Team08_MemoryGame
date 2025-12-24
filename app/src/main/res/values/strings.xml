@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Team08_MemoryGame</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="Signintoplay">Sign in and play</string>
+    <string name="ContinueAsGuest">Play as guest</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

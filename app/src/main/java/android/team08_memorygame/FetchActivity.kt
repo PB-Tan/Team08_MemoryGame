@@ -25,7 +25,7 @@ class FetchActivity : AppCompatActivity() {
             // TODO: implement fetch images activity
             // The Fetch activity allows a URL to be specified. Clicking on the Fetch button will extract
             // the first 20 images that it finds on the webpage that the URL points to and display the
-//                    downloaded images in a grid. A progress-bar should show the number of images
+//            downloaded images in a grid. A progress-bar should show the number of images
 //            downloaded so far with descriptive text (e.g. Downloading 10 of 20 images …)
             //The user can change the URL in the middle of a download and click on the Fetch button
             //again. The current download would then be aborted and all images in the grid will be
