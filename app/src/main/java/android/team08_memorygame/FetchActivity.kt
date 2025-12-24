@@ -49,8 +49,8 @@ class FetchActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         tvProgress = findViewById(R.id.tvProgress)
 
-        // grid layout with 3 columns. adapter handles image loading + selection
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        // grid layout with 4 columns. adapter handles image loading + selection
+        recyclerView.layoutManager = GridLayoutManager(this, 4)
         adapter = ImageAdapter()
         recyclerView.adapter = adapter
 
@@ -87,7 +87,8 @@ class FetchActivity : AppCompatActivity() {
                     .distinct() // remove dupes
                     //.filter { it.endsWith(".jpg") || it.endsWith(".png") } //taking out cuz previously alr filtered
                     .take(20) //limit to 20 image
-
+                val delayMs: Long = 200
+                Thread.sleep(delayMs)
                 runOnUiThread {
                     if (urls.isEmpty()) {
 
@@ -98,7 +99,7 @@ class FetchActivity : AppCompatActivity() {
                         Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show()
                     } else {
                         // 🔹 NEW: start simulated progress based on how many URLs we actually have
-                        startSimulatedProgress(urls.size)
+                        startSimulatedProgress(urls.size, delayMs)
                         adapter.setImages(urls) // urls copied into adapter
                     }
                 }
@@ -167,7 +168,7 @@ class FetchActivity : AppCompatActivity() {
 
         return imageUrls
     }
-    private fun startSimulatedProgress(total: Int) {
+    private fun startSimulatedProgress(total: Int, delayMs: Long) {
         // cancel any old simulation
         cancelSimulatedProgress()
 
@@ -176,18 +177,13 @@ class FetchActivity : AppCompatActivity() {
 
         progressBar.max = totalImagesToDownload
         progressBar.progress = 0
-        tvProgress.text =
-            if (totalImagesToDownload < 20) {
-                "Downloading 0 of $totalImagesToDownload... (only $totalImagesToDownload images available)"
-            } else {
-                "Downloading 0 of $totalImagesToDownload..."
-            }
+        tvProgress.text = "Downloading 0 of $totalImagesToDownload..."
         progressContainer.visibility = View.VISIBLE
 
-        simulateNextStep()
+        simulateNextStep(delayMs)
     }
 
-    private fun simulateNextStep() {
+    private fun simulateNextStep(delayMs: Long) {
         if (downloadedCount >= totalImagesToDownload) {
             tvProgress.text =
                 if (totalImagesToDownload < 20) {
@@ -198,14 +194,11 @@ class FetchActivity : AppCompatActivity() {
             return
         }
 
-        // random delay between updates (e.g. 150–400 ms)
-        val delayMs = random.nextLong(150, 400)
+        // random delay between updates (e.g. 150–400 ms
 
         simulateRunnable = Runnable {
             val remaining = totalImagesToDownload - downloadedCount
-            // random jump by 1–4, but don’t exceed remaining
-            val stepMax = if (remaining >= 4) 4 else remaining
-            val step = random.nextInt(1, stepMax + 1)
+            val step = 1
 
             downloadedCount += step
             if (downloadedCount > totalImagesToDownload) {
@@ -222,7 +215,7 @@ class FetchActivity : AppCompatActivity() {
                         "Downloading $downloadedCount of $totalImagesToDownload..."
                     }
                 // schedule the *next* step
-                simulateNextStep()
+                simulateNextStep(delayMs)
             } else {
                 tvProgress.text =
                     if (totalImagesToDownload < 20) {

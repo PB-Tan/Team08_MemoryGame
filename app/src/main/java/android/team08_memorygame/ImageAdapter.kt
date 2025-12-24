@@ -1,5 +1,7 @@
 package android.team08_memorygame
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,8 +66,25 @@ class ImageAdapter() : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     fun setImages(newImages: List<String>) {
         images.clear()
         selected.clear()
-        images.addAll(newImages)
         notifyDataSetChanged()
+
+        // Start a background thread to add images one by one
+        Thread {
+            for (url in newImages) {
+                try {
+                    Thread.sleep(200)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                // Add the image on the Main UI Thread
+                Handler(Looper.getMainLooper()).post {
+                    images.add(url)
+                    // Notify that a new item was inserted at the end of the list
+                    notifyItemInserted(images.size - 1)
+                }
+            }
+        }.start()
     }
 
     fun getSelectedImages(): List<String> = selected.toList()
