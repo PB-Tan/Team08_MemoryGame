@@ -16,5 +16,5 @@ local.properties
 /.vs
 backend\.vs\
 backend\.vscode\
-/backend/.vs
-/backend/.vscode
+/backend/.vs/
+/backend/.vscode/
