@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/WelcomeFragment">
+
+    <fragment
+        android:id="@+id/WelcomeFragment"
+        android:name="android.team08_memorygame.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+
+        <action
+            android:id="@+id/action_WelcomeFragment_to_GiftFragment"
+            app:destination="@id/GiftFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/GiftFragment"
+        android:name="android.team08_memorygame.GiftFragment"
+        android:label="fragment_gift"
+        tools:layout="@layout/fragment_gift" />
+
+
+</navigation>

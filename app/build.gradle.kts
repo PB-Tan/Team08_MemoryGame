@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,10 @@ android {
     namespace = "android.team08_memorygame"
     compileSdk {
         version = release(36)
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     defaultConfig {
@@ -38,6 +44,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
+    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -46,4 +56,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("org.jsoup:jsoup:1.17.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("io.coil-kt:coil:2.6.0")
+
 }

@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+<!-- Welcome Screens -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gold">#D09B03</color>
+    <color name="darkgold">#B59410</color>
+
+<!-- Login Activity   -->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#040404</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+
+<!--    LeaderBoard Activity-->
+    <color name="grey">#bab8b1</color>
 </resources>

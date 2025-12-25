@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GiftFragment"
+    android:background="@drawable/gradient_background"
+  >
+
+    <ImageView
+        android:id="@+id/giftimage"
+        android:layout_width="316dp"
+        android:layout_height="332dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/gift" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="500dp"
+        android:text="@string/prize"
+        android:textAlignment="center"
+        android:textColor="@color/gold"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="620dp"
+        android:text="@string/prizetext"
+        android:textAlignment="center"
+        android:textColor="@color/darkgold"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+
+
+    <ImageButton
+        android:id="@+id/forward2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="50dp"
+        android:scaleType="fitXY"
+        android:background="@color/white"
+        android:src="@drawable/forward"/>
+
+</FrameLayout>
