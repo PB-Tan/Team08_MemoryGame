@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.team08_memorygame.databinding.ActivityPlayBinding
+import android.view.View
 import android.widget.Button
 import android.widget.GridView
 import android.widget.Toast
@@ -13,6 +15,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.team08_memorygame.R
 class PlayActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPlayBinding
+
     private var cardList = mutableListOf<Card>()
     private lateinit var adapter: MemoryAdapter
 
@@ -22,15 +26,23 @@ class PlayActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityPlayBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_play)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 //see the rank
+
+        //-----CHECK PREMIUM STATUS-----
+        if(UserManager.userIsPremium){
+            binding.fragmentContainerView.visibility = View.GONE
+        } else {
+            binding.fragmentContainerView.visibility = View.VISIBLE
+        }
+
         val leaderboardBtn = findViewById<Button>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {
             startActivity(Intent(this, LeaderboardActivity::class.java))
