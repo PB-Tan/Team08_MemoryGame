@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MemoryGameAPI.Data;
 using MemoryGameAPI.Models;
+using Microsoft.AspNetCore.Http;
+
 
 namespace MemoryGameAPI.Controllers;
 
@@ -18,10 +20,9 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// User login
+
+    /// User login API
     /// POST /api/auth/login
-    /// </summary>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
@@ -57,7 +58,13 @@ public class AuthController : ControllerBase
 
         // Login successful
         _logger.LogInformation($"Login successful: {user.Username}");
-        //implement GUID after successful authentication...
+
+        //store user credentials in session 
+        HttpContext.Session.SetInt32("UserId", user.UserId);
+        HttpContext.Session.SetString("Username", user.Username);
+        HttpContext.Session.SetString("IsPaid", user.IsPaidUser ? "1" : "0");
+
+        // return HTTP response to android
         return Ok(new LoginResponse
         {
             Success = true,
@@ -68,10 +75,34 @@ public class AuthController : ControllerBase
         });
     }
 
-    /// <summary>
+    //test if session is working
+    [HttpGet("me")]
+    public IActionResult Me()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null)
+            return Unauthorized(new { success = false, message = "Not logged in" });
+
+        return Ok(new
+        {
+            success = true,
+            userId = userId.Value,
+            username = HttpContext.Session.GetString("Username"),
+            isPaid = HttpContext.Session.GetString("IsPaid") == "1"
+        });
+    }
+
+    //clear session if we need to log out
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return Ok(new { success = true, message = "Logged out" });
+    }
+
+
     /// Get all users (for testing)
     /// GET /api/auth/users
-    /// </summary>
     [HttpGet("users")]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {

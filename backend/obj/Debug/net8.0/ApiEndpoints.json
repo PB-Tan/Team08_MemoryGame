@@ -27,6 +27,26 @@
   },
   {
     "ContainingType": "MemoryGameAPI.Controllers.AuthController",
+    "Method": "Logout",
+    "RelativePath": "api/Auth/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.AuthController",
+    "Method": "Me",
+    "RelativePath": "api/Auth/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.AuthController",
     "Method": "GetAllUsers",
     "RelativePath": "api/Auth/users",
     "HttpMethod": "GET",

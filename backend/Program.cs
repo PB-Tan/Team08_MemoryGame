@@ -1,18 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using MemoryGameAPI.Data;
+using Microsoft.AspNetCore.Session;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 添加服务
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 配置 Entity Framework 和 SQLite
+// Configure Entity Framework and SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 配置 CORS - 允许局域网访问
+// Configure CORS - allow LAN access
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -23,12 +25,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 配置监听所有网络接口（局域网访问）
+//Enable session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Configure to listen on all network interfaces (LAN access)
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
 
-// 初始化数据库和种子数据
+// Initialize database and seed data
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -36,7 +47,7 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Initialize(context);
 }
 
-// 配置 HTTP 请求管道
+// Configure session
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -44,16 +55,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+app.UseSession();
 app.UseAuthorization();
 app.MapControllers();
 
 Console.WriteLine("===========================================");
-Console.WriteLine("Memory Game API 已启动!");
-Console.WriteLine("本地访问: http://localhost:5000");
-Console.WriteLine("Swagger文档: http://localhost:5000/swagger");
+Console.WriteLine("Memory Game API started!");
+Console.WriteLine("Local access:        http://localhost:5000");
+Console.WriteLine("Swagger ui (Test):   http://localhost:5000/swagger");
 Console.WriteLine("===========================================");
-Console.WriteLine("请在Android中使用你的电脑IP地址访问");
-Console.WriteLine("例如: http://192.168.1.100:5000");
+Console.WriteLine("Use your computer's IP address in Android to access");
+Console.WriteLine("For example: http://10.0.2.2:5000/");
 Console.WriteLine("===========================================");
 
 app.Run();
