@@ -14,7 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.jsoup.Jsoup
-import kotlin.random.Random
+
+import androidx.core.content.ContextCompat
+import android.content.res.ColorStateList
+import android.text.Editable
+import android.text.TextWatcher
+
+
 
 class FetchActivity : AppCompatActivity() {
 
@@ -31,10 +37,14 @@ class FetchActivity : AppCompatActivity() {
 
     // for simulated progress
     private val handler = Handler(Looper.getMainLooper())
-    private val random = Random(System.currentTimeMillis())
+
     private var simulateRunnable: Runnable? = null
-    private var totalImagesToDownload = 20
+    private var totalImagesToDownload = 0
     private var downloadedCount = 0
+
+    private var isDownloading = false // to track if a fetch is in progress
+
+    private var originalFetchTint: ColorStateList? = null // get the original purple cuz i cant get the shade
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +52,12 @@ class FetchActivity : AppCompatActivity() {
 
         etUrl = findViewById(R.id.etUrl)
         btnFetch = findViewById(R.id.btnFetch)
+        originalFetchTint = btnFetch.backgroundTintList
+
+        // ui for the button to be grayed out until URL is typed
+        btnFetch.isEnabled = false
+        btnFetch.alpha = 0.5f
+
         btnPlay = findViewById(R.id.btnPlay)
         recyclerView = findViewById(R.id.recyclerView)
 
@@ -54,10 +70,27 @@ class FetchActivity : AppCompatActivity() {
         adapter = ImageAdapter()
         recyclerView.adapter = adapter
 
+        etUrl.addTextChangedListener(object : TextWatcher {      // ⭐ NEW
+            override fun afterTextChanged(s: Editable?) {
+                if (!isDownloading) { // only control Fetch state when not downloading
+                    updateFetchButtonEnabledState()
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) { }
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) { }
+        })
+
         btnFetch.setOnClickListener {
-            val pageUrl = etUrl.text.toString()
-            if (pageUrl.isNotEmpty()) {
-                fetchImages(pageUrl)
+            if(!isDownloading){
+                startFetch()
+            } else {
+                cancelFetch()
             }
         }
 
@@ -76,6 +109,60 @@ class FetchActivity : AppCompatActivity() {
 
     }
 
+    private fun startFetch(){
+
+
+        val pageUrl = etUrl.text.toString().trim()
+        if(pageUrl.isEmpty()){
+            Toast.makeText(this, "Please enter a URL", Toast.LENGTH_SHORT).show()
+            return
+        }
+        //reset UI
+        cancelSimulatedProgress()
+        clearImagesCompletely()
+        progressContainer.visibility = View.GONE
+
+        isDownloading = true
+
+
+        // while downloading, button should be active and red
+        btnFetch.isEnabled = true
+        btnFetch.alpha = 1f
+        btnFetch.text = "Cancel"
+        btnFetch.backgroundTintList =
+            ContextCompat.getColorStateList(this, R.color.red_500)
+
+        fetchImages(pageUrl)
+
+    }
+
+    private fun cancelFetch() {
+        if (!isDownloading) return
+
+        isDownloading = false
+        btnFetch.text = "Fetch"
+
+        // restore original purple tint (whatever it was from XML)
+        originalFetchTint?.let { tint ->
+            btnFetch.backgroundTintList = tint
+        }
+
+        cancelSimulatedProgress()
+
+        //reset counters for the progress bar
+        downloadedCount = 0
+        totalImagesToDownload = 0
+        progressBar.progress = 0
+
+        clearImagesCompletely()
+        progressContainer.visibility = View.GONE
+
+        // back to "idle" behaviour: button only enabled if URL present
+        updateFetchButtonEnabledState()
+
+        Toast.makeText(this, "Download cancelled", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         cancelSimulatedProgress()
@@ -90,10 +177,15 @@ class FetchActivity : AppCompatActivity() {
                 val delayMs: Long = 200
                 Thread.sleep(delayMs)
                 runOnUiThread {
+
+                    if(!isDownloading){ //if tap cancel then dont update the UI ?
+                        return@runOnUiThread
+                    }
+
                     if (urls.isEmpty()) {
 
                         //clear old images if no results found for new url
-                        adapter.setImages(emptyList())
+                        clearImagesCompletely()
                         // nothing to download, hide progress and warn user
                         progressContainer.visibility = View.GONE
                         Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show()
@@ -105,10 +197,18 @@ class FetchActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 runOnUiThread {
-                    // 🔹 NEW: stop and hide progress bar on error
+                    // stop and hide progress bar on error
                     cancelSimulatedProgress()
                     progressContainer.visibility = View.GONE
-                    Toast.makeText(this, "error - please check input URL", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error fetching images. Please check the URL.", Toast.LENGTH_SHORT).show()
+
+                    //reset button & state when there is error
+                    isDownloading = false
+                    btnFetch.text = "Fetch"
+                    originalFetchTint?.let { tint ->
+                        btnFetch.backgroundTintList = tint
+                    }
+                    updateFetchButtonEnabledState()
                 }
             }
         }.start()
@@ -191,13 +291,23 @@ class FetchActivity : AppCompatActivity() {
                 } else {
                     "Download completed"
                 }
+
+            // reset state when done
+            isDownloading = false
+            btnFetch.text = "Fetch"
+            originalFetchTint?.let { tint ->
+                btnFetch.backgroundTintList = tint
+            }
+            updateFetchButtonEnabledState()
             return
         }
 
-        // random delay between updates (e.g. 150–400 ms
-
         simulateRunnable = Runnable {
-            val remaining = totalImagesToDownload - downloadedCount
+            // if user has cancelled, do nothing
+            if(!isDownloading){
+                return@Runnable
+            }
+
             val step = 1
 
             downloadedCount += step
@@ -223,18 +333,39 @@ class FetchActivity : AppCompatActivity() {
                     } else {
                         "Download completed"
                     }
+
+                // finished via runnable
+                isDownloading = false
+                btnFetch.text = "Fetch"
+                originalFetchTint?.let { tint ->
+                    btnFetch.backgroundTintList = tint
+                }
+                updateFetchButtonEnabledState()
             }
         }
 
-        // 🔹 IMPORTANT: schedule the runnable for the *first* time here
+        // schedule the runnable for the *first* time here
         handler.postDelayed(simulateRunnable!!, delayMs)
     }
+
 
 
     private fun cancelSimulatedProgress() {
         simulateRunnable?.let { handler.removeCallbacks(it) }
         simulateRunnable = null
     }
+
+    private fun updateFetchButtonEnabledState() {
+        val hasText = etUrl.text.toString().trim().isNotEmpty()
+        btnFetch.isEnabled = hasText
+        btnFetch.alpha = if (hasText) 1f else 0.5f
+    }
+
+    private fun clearImagesCompletely() {
+        adapter = ImageAdapter()
+        recyclerView.adapter = adapter
+    }
+
 
 
 }
