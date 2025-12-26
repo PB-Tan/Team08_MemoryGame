@@ -1,3 +1,4 @@
+public class ScoreDao{
 public List<Score> GetTop5Scores(string? username = null)
 {
     List<Score> scores = new List<Score>();
@@ -44,4 +45,4 @@ public List<Score> GetTop5Scores(string? username = null)
     }
 
     return scores;
-}
+}}
