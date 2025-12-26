@@ -1,33 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {}
+    "H:\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {
+    "H:\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
+        "projectUniqueName": "H:\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
         "projectName": "MemoryGameAPI",
-        "projectPath": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
-        "packagesPath": "C:\\Users\\tanph\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tanph\\AndroidStudioProjects\\Team08_MemoryGame\\backend\\obj\\",
+        "projectPath": "H:\\Team08_MemoryGame\\backend\\MemoryGameAPI.csproj",
+        "packagesPath": "C:\\Users\\hlz\\.nuget\\packages\\",
+        "outputPath": "H:\\Team08_MemoryGame\\backend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\tanph\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\hlz\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
