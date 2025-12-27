@@ -16,3 +16,11 @@ local.properties
 /.vs
 /backend/.vs
 /backend/.vscode
+.kotlin/errors/
+.idea/markdown.xml
+.idea/render.experimental.xml
+.idea/studiobot.xml
+*.db
+.vs/
+**/bin/
+**/obj/
