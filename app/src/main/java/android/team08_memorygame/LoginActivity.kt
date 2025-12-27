@@ -49,7 +49,8 @@ class LoginActivity : AppCompatActivity() {
             }
             Thread {
                 val (ok, message, userId, isPaid) = doLogin(username, password)
-
+                UserManager.userIsPremium = isPaid
+                UserManager.userId = userId.toString()
                 runOnUiThread {
                     if (!ok) {
                         Toast.makeText(this, message ?: "Login failed", Toast.LENGTH_SHORT).show()

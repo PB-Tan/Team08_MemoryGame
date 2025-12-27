@@ -35,20 +35,16 @@ class PlayActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-<<<<<<< HEAD
 //see the rank
 
-        //-----CHECK PREMIUM STATUS-----
+
         if(UserManager.userIsPremium){
             binding.fragmentContainerView.visibility = View.GONE
         } else {
             binding.fragmentContainerView.visibility = View.VISIBLE
         }
 
-=======
-
         //score_button
->>>>>>> main
         val leaderboardBtn = findViewById<Button>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {
             val intent = Intent(this, LeaderboardActivity::class.java)

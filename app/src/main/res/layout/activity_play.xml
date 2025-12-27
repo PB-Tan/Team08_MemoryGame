@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -42,13 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_container_view"
-
-<<<<<<< HEAD
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:navGraph="@navigation/ad_nav_graph"
-
         app:defaultNavHost="false"
-
         app:layout_constraintTop_toBottomOf="@id/gridView"
         app:layout_constraintBottom_toTopOf="@id/leader_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +57,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_container_view" />
-=======
 
     <!-- Header Navigation Layout-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -169,5 +161,4 @@
 <!--        </androidx.appcompat.widget.AppCompatButton>-->
 
 <!--    </LinearLayout>-->
->>>>>>> main
 </androidx.constraintlayout.widget.ConstraintLayout>
