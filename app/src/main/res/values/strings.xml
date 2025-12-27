@@ -2,4 +2,20 @@
     <string name="app_name">Team08_MemoryGame</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+<<<<<<< HEAD
+=======
+    <string name="simple">Simple\nGame</string>
+    <string name="simpletext">Sharpen your mind with every match!!</string>
+
+    <string name="leaderboard">LEADER BOARD</string>
+    <string name="prize">Real\nPrizes!</string>
+    <string name="prizetext">Win prizes when you reach the end of the stairs.</string>
+    <string name="playagain">Play Again!</string>
+
+    <string name="game">LET\'S PLAY</string>
+    <string name="fetch">LET\'S FETCH</string>
+    <string name="start">Start</string>
+    <string name="score">Score</string>
+
+>>>>>>> main
 </resources>

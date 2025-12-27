@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import coil.load
 
-
-data class Card(val imageId: Int, var isFaceUp: Boolean = false, var isMatched: Boolean = false)
-
+data class Card(val imageUrl: String, var isFaceUp: Boolean = false, var isMatched: Boolean = false)
 
 class MemoryAdapter(private val context: Context, private val cards: List<Card>) : BaseAdapter() {
 
@@ -41,10 +40,12 @@ class MemoryAdapter(private val context: Context, private val cards: List<Card>)
 
         // display pictures
         if (card.isFaceUp || card.isMatched) {
-            imageView.setImageResource(card.imageId)
+            imageView.load(card.imageUrl) {
+                crossfade(true)
+            }
         } else {
             // if imageview=null  set gray
-            imageView.setImageResource(0)
+            imageView.setImageDrawable(null)
             imageView.setBackgroundColor(context.getColor(android.R.color.darker_gray))
         }
         return imageView
