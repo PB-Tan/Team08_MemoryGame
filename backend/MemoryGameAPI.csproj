@@ -14,11 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\AppDbContext.cs" />
+    <Compile Remove="Data\DbInitializer.cs" />
+    <Compile Remove="Models\DTOs.cs" />
+    <Compile Remove="Models\Room.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MySql.Data" Version="9.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 

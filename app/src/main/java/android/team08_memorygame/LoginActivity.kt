@@ -68,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
         var conn: HttpURLConnection? = null
 
         return try {
+            //HTTP request
             val url = URL("http://10.0.2.2:5000/api/auth/login")
             conn = (url.openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"

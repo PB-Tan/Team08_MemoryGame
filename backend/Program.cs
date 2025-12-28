@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using MemoryGameAPI.Data;
+using MemoryGameAPI.Repositories;
 using Microsoft.AspNetCore.Session;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,10 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Configure Entity Framework and SQLite
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure CORS - allow LAN access
 builder.Services.AddCors(options =>
@@ -34,17 +31,26 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddScoped<ScoreRepository>();
+
 // Configure to listen on all network interfaces (LAN access)
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
 
-// Initialize database and seed data
-using (var scope = app.Services.CreateScope())
+try
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
+    var connectionString = "server=localhost;uid=mg_user;pwd=password;database=memory_game";
+
+    Console.WriteLine("Initializing MySQL database");
+    MySqlDbInitializer.Initialize(connectionString);
+    Console.WriteLine("MySQL database initialized successfully");
+}
+catch (Exception e)
+{
+    Console.WriteLine($"Database initialization failed: {e.Message}");
+    Console.WriteLine($"Make sure MySQL is running and credentials are correct");
+    throw; 
 }
 
 // Configure session
