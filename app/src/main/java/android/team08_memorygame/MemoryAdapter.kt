@@ -49,4 +49,5 @@ class MemoryAdapter(private val context: Context, private val cards: List<Card>)
         }
         return imageView
     }
+
 }
