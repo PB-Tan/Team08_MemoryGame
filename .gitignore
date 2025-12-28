@@ -24,3 +24,6 @@ local.properties
 .vs/
 **/bin/
 **/obj/
+
+/backend/obj
+/backend/bin
