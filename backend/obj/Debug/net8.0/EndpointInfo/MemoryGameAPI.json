@@ -165,6 +165,67 @@
         }
       }
     },
+    "/api/Auth2/login": {
+      "post": {
+        "tags": [
+          "Auth2"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reqUsername": {
+                    "type": "string"
+                  },
+                  "reqPassword": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "reqUsername": {
+                  "style": "form"
+                },
+                "reqPassword": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth2/AllUsers": {
+      "get": {
+        "tags": [
+          "Auth2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth2/logout": {
+      "get": {
+        "tags": [
+          "Auth2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Rooms": {
       "post": {
         "tags": [
@@ -494,7 +555,9 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/Scores2/top5": {
       "get": {
         "tags": [
           "Scores2"
@@ -506,7 +569,7 @@
         }
       }
     },
-    "/api/Scores2/debug": {
+    "/api/Scores2/AllScores": {
       "get": {
         "tags": [
           "Scores2"

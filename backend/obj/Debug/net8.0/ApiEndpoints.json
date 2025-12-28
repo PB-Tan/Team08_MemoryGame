@@ -66,6 +66,47 @@
     ]
   },
   {
+    "ContainingType": "MemoryGameAPI.Controllers.Auth2Controller",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/Auth2/AllUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.Auth2Controller",
+    "Method": "Login",
+    "RelativePath": "api/Auth2/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reqUsername",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "reqPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.Auth2Controller",
+    "Method": "Logout",
+    "RelativePath": "api/Auth2/logout",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MemoryGameAPI.Controllers.AdsController",
     "Method": "GetAds",
     "RelativePath": "api/images/ads",
@@ -302,7 +343,7 @@
   {
     "ContainingType": "MemoryGameAPI.Controllers.Scores2Controller",
     "Method": "GetAllScores",
-    "RelativePath": "api/Scores2",
+    "RelativePath": "api/Scores2/AllScores",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -311,8 +352,8 @@
   },
   {
     "ContainingType": "MemoryGameAPI.Controllers.Scores2Controller",
-    "Method": "GetDebugInfo",
-    "RelativePath": "api/Scores2/debug",
+    "Method": "GetTop5Scores",
+    "RelativePath": "api/Scores2/top5",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

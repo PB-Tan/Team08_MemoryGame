@@ -18,12 +18,12 @@ namespace MemoryGameAPI.Controllers
 
             //First, we check if user exists in db
             User? reqUser = userRepo.findUserByUsername(reqUsername);
-            var userNotFoundMsg = new
+            var userNotFoundMessage = new
             {
-                success = false,
-                msg = "user not found"
+                Success = false,
+                Message = "user not found"
             };
-            if (reqUser == null) return new ObjectResult(userNotFoundMsg);
+            if (reqUser == null) return new ObjectResult(userNotFoundMessage);
 
             // User now is validated to exists in database
             // Second, we check if scores exists.
@@ -41,13 +41,13 @@ namespace MemoryGameAPI.Controllers
                 };
                 scoreRepo.CreateScore(newScore);
 
-                // we now exit the method by return a success result
-                var newScoreCreatedMsg = new
+                // we now exit the method by return a Success result
+                var newScoreCreatedMessage = new
                 {
-                    success = true,
-                    msg = "User is first time player. Score has been created"
+                    Success = true,
+                    Message = "User is first time player. Score has been created"
                 };
-                return new ObjectResult(newScoreCreatedMsg);
+                return new ObjectResult(newScoreCreatedMessage);
             }
             
             // By this point, user has an existing score inside database
@@ -65,23 +65,23 @@ namespace MemoryGameAPI.Controllers
                 };
                 scoreRepo.UpdateScore(newScore);
 
-                // we now exit the method by returning a success result
-                var newScoreUpdatedMsg = new
+                // we now exit the method by returning a Success result
+                var newScoreUpdatedMessage = new
                 {
-                    success = true,
-                    msg = "User's Score has been updated"
+                    Success = true,
+                    Message = "User's Score has been updated"
                 };
-                return new ObjectResult(newScoreUpdatedMsg);
+                return new ObjectResult(newScoreUpdatedMessage);
             }
 
             //By this point, the user exists and score has existed. But existing score is worse
             //Thus, we do not make any changes to the database, and exit the program.
-            var noScoreUpdatedMsg = new
+            var noScoreUpdatedMessage = new
             {
-                success = false,
-                msg = "User did not perform better than previous attempt. No records were updated"
+                Success = false,
+                Message = "User did not perform better than previous attempt. No records were updated"
             };
-            return new ObjectResult(noScoreUpdatedMsg);
+            return new ObjectResult(noScoreUpdatedMessage);
         }
 
         [HttpGet("top5")]
@@ -94,7 +94,7 @@ namespace MemoryGameAPI.Controllers
 
         //GET /api/Scores2/
         //For testing purposes
-        [HttpGet]
+        [HttpGet("AllScores")]
         public IActionResult GetAllScores()
         {
             List<Score> allScores = new List<Score>();

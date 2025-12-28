@@ -1,9 +1,13 @@
 package android.team08_memorygame
 
 import android.R.attr.password
+import android.R.id.message
+import android.R.string.ok
 import android.content.Intent
 import android.os.Bundle
+import android.team08_memorygame.UserManager.userId
 import android.team08_memorygame.databinding.ActivityLoginBinding
+import android.util.Log.e
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +23,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.jvm.java
 
-data class Quad<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
+data class LoginResult (val success: Boolean, val Message: String)
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
@@ -48,65 +52,62 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             Thread {
-                val (ok, message, userId, isPaid) = doLogin(username, password)
-                UserManager.userIsPremium = isPaid
-                UserManager.userId = userId.toString()
+                val result = doLogin(username, password)
                 runOnUiThread {
-                    if (!ok) {
-                        Toast.makeText(this, message ?: "Login failed", Toast.LENGTH_SHORT).show()
-                        return@runOnUiThread
-                    }
+                    Toast.makeText(this@LoginActivity, result.Message, Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(this, FetchActivity::class.java)
-                    startActivity(intent)
+                    if (result.success) {
+                        val intent = Intent(this, FetchActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }.start()
         }
     }
 
-    private fun doLogin(username: String, password: String): Quad<Boolean, String?, Int, Boolean> {
-        var conn: HttpURLConnection? = null
+    private fun doLogin(username: String, password: String): LoginResult  {
+        try {
+            //HTTP request by passing the credentials in query strings
+            val url = URL("http://10.0.2.2:5000/api/Auth2/login")
 
-        return try {
-            //HTTP request
-            val url = URL("http://10.0.2.2:5000/api/auth/login")
-            conn = (url.openConnection() as HttpURLConnection).apply {
-                requestMethod = "POST"
+            val conn = (url.openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST" // We are calling a [HttpPost("login")] endpoint
                 connectTimeout = 10_000
                 readTimeout = 10_000
-                doOutput = true
-                setRequestProperty("Content-Type", "application/json; charset=utf-8")
-                setRequestProperty("Accept", "application/json")
+                doOutput = true // We will write a request body (POST body) to the server
+                // Tell the server what format we are sending in the request body
+                setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
             }
 
-            val bodyJson = JSONObject().apply {
-                put("username", username)
-                put("password", password)
-            }.toString()
-
+            // Build the POST body as key=value&key=value (form-urlencoded style)
+            val body = "reqUsername=$username&reqPassword=$password"
+            //    .use { } automatically closes the stream after writing (like a safe resource cleanup)
             conn.outputStream.use { os ->
-                os.write(bodyJson.toByteArray(Charsets.UTF_8))
+                os.write(body.toByteArray(Charsets.UTF_8))
             }
 
+            // Choose the correct stream to read:
+            //  - inputStream for success responses (2xx)
+            //  - errorStream for failure responses (4xx/5xx)
+            //  Without this, reading inputStream on failure can throw and you lose the error message
             val stream =
                 if (conn.responseCode in 200..299) conn.inputStream
                 else conn.errorStream
+
+            // reading the response body from the server
             val responseText =
                 BufferedReader(InputStreamReader(stream)).use { it.readText() }
-
-            val res = JSONObject(responseText)
-
-            // mapping over from backend
-            val success = res.optBoolean("success", res.optBoolean("Success", false))
-            val msg = res.optString("message", res.optString("Message", null))
-            val userId = res.optInt("userId", res.optInt("UserId", 0))
-            val isPaid = res.optBoolean("isPaid", res.optBoolean("IsPaid", false))
-
-            Quad(success, msg, userId, isPaid)
-        } catch (e: Exception) {
-            Quad(false, e.message, 0, false)
-        } finally {
-            conn?.disconnect()
+            val code = conn.responseCode
+            android.util.Log.d("LOGIN", "code=$code body=$responseText")
+            // Unwrapping the response body using JSON body
+            JSONObject(responseText).apply {
+                val success = optBoolean("success", false)
+                val message = optString("message", "unknown response")
+                return LoginResult(success, message)
+            }
+        }catch(e: Exception) {
+            e.printStackTrace()
+            return LoginResult(false, "Network error: ${e.message ?: "unknown"}")
         }
     }
 }

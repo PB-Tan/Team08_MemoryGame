@@ -7,20 +7,15 @@ namespace MemoryGameAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class Auth2Controller : Controller
+    public class Auth2Controller : ControllerBase
     {
         UserRepository userRepo = new UserRepository();
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost("login")]
-        public IActionResult Login(String reqUsername, String reqPassword)
+        public IActionResult Login([FromForm] string reqUsername, [FromForm] string reqPassword)
         {
             //validate if incoming username and password are empty
-            if (string.IsNullOrWhiteSpace(reqPassword) || String.IsNullOrWhiteSpace(reqUsername))
+            if (string.IsNullOrWhiteSpace(reqPassword) || string.IsNullOrWhiteSpace(reqUsername))
             {
                 return new ObjectResult(new
                 {
@@ -55,5 +50,25 @@ namespace MemoryGameAPI.Controllers
                 });
             }
         }
+
+        [HttpGet("AllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            List<User> userList = userRepo.GetAllUsers();
+            return new ObjectResult(userList);
+        }
+
+        //clear session if we need to log out
+        [HttpGet("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return new ObjectResult (new
+            { 
+                Success = true, 
+                Message = "Logged out" 
+            });
+        }
+
     }
 }
