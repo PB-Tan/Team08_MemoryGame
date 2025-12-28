@@ -59,6 +59,9 @@ class FetchActivity : AppCompatActivity() {
         btnFetch.alpha = 0.5f
 
         btnPlay = findViewById(R.id.btnPlay)
+        btnPlay.isEnabled = false
+        btnPlay.alpha = 0.5f
+
         recyclerView = findViewById(R.id.recyclerView)
 
         progressContainer = findViewById(R.id.progressContainer)
@@ -96,10 +99,14 @@ class FetchActivity : AppCompatActivity() {
 
         btnPlay.setOnClickListener {
             val selected = adapter.getSelectedImages()
+
             if (selected.size != 6) {
+                btnPlay.alpha=0.5f //grey out
                 Toast.makeText(this, "please select 6 images", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            btnPlay.alpha = 1f
 
             //navigate to next screen, sends selected image urls to selectedpreviewactivity
             val intent = Intent(this, SelectedPreviewActivity::class.java)
@@ -112,10 +119,15 @@ class FetchActivity : AppCompatActivity() {
     private fun startFetch(){
 
 
-        val pageUrl = etUrl.text.toString().trim()
+        var pageUrl = etUrl.text.toString().trim()
         if(pageUrl.isEmpty()){
             Toast.makeText(this, "Please enter a URL", Toast.LENGTH_SHORT).show()
             return
+        }
+
+        // help the user if they forget http/https
+        if (!pageUrl.startsWith("http://") && !pageUrl.startsWith("https://")) {
+            pageUrl = "https://$pageUrl"
         }
         //reset UI
         cancelSimulatedProgress()
@@ -124,6 +136,8 @@ class FetchActivity : AppCompatActivity() {
 
         isDownloading = true
 
+        btnPlay.isEnabled = false
+        btnPlay.alpha = 0.5f
 
         // while downloading, button should be active and red
         btnFetch.isEnabled = true
@@ -153,6 +167,9 @@ class FetchActivity : AppCompatActivity() {
         downloadedCount = 0
         totalImagesToDownload = 0
         progressBar.progress = 0
+
+        btnPlay.isEnabled = false
+        btnPlay.alpha = 0.5f
 
         clearImagesCompletely()
         progressContainer.visibility = View.GONE
@@ -189,10 +206,21 @@ class FetchActivity : AppCompatActivity() {
                         // nothing to download, hide progress and warn user
                         progressContainer.visibility = View.GONE
                         Toast.makeText(this, "No images found", Toast.LENGTH_SHORT).show()
+                        btnPlay.isEnabled = false
+                        btnPlay.alpha = 0.5f
+
+                        isDownloading = false
+                        btnFetch.text = "Fetch"
+                        originalFetchTint?.let { tint ->
+                            btnFetch.backgroundTintList = tint}
+                        updateFetchButtonEnabledState()
                     } else {
-                        // 🔹 NEW: start simulated progress based on how many URLs we actually have
+                        // start simulated progress based on how many URLs we actually have
                         startSimulatedProgress(urls.size, delayMs)
                         adapter.setImages(urls) // urls copied into adapter
+
+                        btnPlay.isEnabled = true //play button can tap but looks 'not ready'
+                        btnPlay.alpha = 0.5f
                     }
                 }
             } catch (e: Exception) {
@@ -208,6 +236,9 @@ class FetchActivity : AppCompatActivity() {
                     originalFetchTint?.let { tint ->
                         btnFetch.backgroundTintList = tint
                     }
+                    btnPlay.isEnabled = false
+                    btnPlay.alpha = 0.5f
+
                     updateFetchButtonEnabledState()
                 }
             }
