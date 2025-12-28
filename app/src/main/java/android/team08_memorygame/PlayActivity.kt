@@ -1,6 +1,7 @@
 package android.team08_memorygame
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +13,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -37,6 +39,15 @@ class PlayActivity : AppCompatActivity() {
         }
 //see the rank
 
+        val backButton = findViewById<ImageButton>(R.id.back)
+        backButton.setOnClickListener {
+            val mp = MediaPlayer.create(this@PlayActivity, R.raw.click_sound)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
+            val intent = Intent(this, FetchActivity::class.java)
+            startActivity(intent)
+        }
+
 
         if(UserManager.userIsPremium){
             binding.fragmentContainerView.visibility = View.GONE
@@ -45,17 +56,15 @@ class PlayActivity : AppCompatActivity() {
         }
 
         //score_button
-        val leaderboardBtn = findViewById<Button>(R.id.leader_button)
+        val leaderboardBtn = findViewById<AppCompatButton>(R.id.leader_button)
         leaderboardBtn.setOnClickListener {
+            val mp = MediaPlayer.create(this@PlayActivity, R.raw.click_sound)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
             val intent = Intent(this, LeaderboardActivity::class.java)
             startActivity(intent)
         }
 
-        val backButton = findViewById<ImageButton>(R.id.back)
-        backButton.setOnClickListener {
-            val intent = Intent(this, FetchActivity::class.java)
-            startActivity(intent)
-        }
 
         setupGame()
     }

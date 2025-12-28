@@ -59,7 +59,7 @@ class AdBannerFragment : Fragment() {
         if(_binding == null) return
         val currentAd = adList[currentAdIndex]
         //update image
-        binding.apply {
+        binding.apply{
             adImageView.setImageResource(currentAd.imageResId)
             adImageView.setOnClickListener {
                 val bundle = Bundle().apply {
@@ -69,6 +69,7 @@ class AdBannerFragment : Fragment() {
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
