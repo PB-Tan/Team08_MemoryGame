@@ -277,5 +277,46 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.Scores2Controller",
+    "Method": "SubmitScores",
+    "RelativePath": "api/Scores2",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reqUsername",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "reqCompletionTimeSeconds",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.Scores2Controller",
+    "Method": "GetAllScores",
+    "RelativePath": "api/Scores2",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MemoryGameAPI.Controllers.Scores2Controller",
+    "Method": "GetDebugInfo",
+    "RelativePath": "api/Scores2/debug",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

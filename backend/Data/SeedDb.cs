@@ -6,7 +6,7 @@ namespace MemoryGameAPI.Data
     {
         public static void Initialize(string connectionString)
         {
-            using (MySQLConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
 
@@ -15,13 +15,15 @@ namespace MemoryGameAPI.Data
 
                 // Seed initial data
                 SeedData(conn);
+
+                conn.Close();
             }
         }
 
         private static void CreateTables(MySqlConnection conn)
         {
             // Create Users table
-            var createUsersTable = @"
+            string createUsersTable = @"
             CREATE TABLE IF NOT EXISTS Users (
                 UserId INT AUTO_INCREMENT PRIMARY KEY,
                 Username VARCHAR(50) NOT NULL UNIQUE,
@@ -31,7 +33,7 @@ namespace MemoryGameAPI.Data
             )";
 
             // Create Scores table
-            var createScoresTable = @"
+            string createScoresTable = @"
             CREATE TABLE IF NOT EXISTS Scores (
                 ScoreId INT AUTO_INCREMENT PRIMARY KEY,
                 UserId INT NOT NULL,
@@ -41,67 +43,64 @@ namespace MemoryGameAPI.Data
                 FOREIGN KEY (UserId) REFERENCES Users(UserId) ON DELETE CASCADE
             )";
 
-            ExecuteCommand(conn, createUsersTable);
-            ExecuteCommand(conn, createScoresTable);
+            MySqlCommand cmd = new MySqlCommand(createUsersTable, conn);
+            cmd.ExecuteNonQuery();
+            cmd = new MySqlCommand(createScoresTable, conn);
+            cmd.ExecuteNonQuery();
         }
 
         private static void SeedData(MySqlConnection conn)
         {
             // Check if user table already has data
-            string countSql = "SELECT COUNT(*) FROM Users";
-            using (MySqlCommand cmd = new MySqlCommand(countSql, conn))
+            string countUserSql = "SELECT COUNT(*) FROM Users";
+            MySqlCommand cmd = new MySqlCommand(countUserSql, conn);
+            int userCount = Convert.ToInt32(cmd.ExecuteScalar());
+
+            if (userCount > 0)
             {
-                int userCount = (int)cmd.ExecuteScalar();
-                if (userCount > 0)
-                {
-                    Console.WriteLine("User Data already exists, skipping seeding users...");
-                    return;
-                }
+                Console.WriteLine("User Data already exists, skipping seeding users...");
             }
-                
-            
-            
-            // Seed dummy users
-            var seedUsers = @"
-            INSERT INTO Users (Username, Password, IsPaidUser, CreatedAt) VALUES 
-            ('testuser1', 'password123', FALSE, NOW()),
-            ('testuser2', 'password456', FALSE, NOW()),
-            ('speedrunner', 'fastpass', TRUE, NOW()),
-            ('casual_gamer', 'easypass', FALSE, NOW()),
-            ('memory_master', 'strongpass', TRUE, NOW()),
-            ('demo_player', 'demo123', FALSE, NOW())";
+            else
+            {
+                // User data has not been initialized, so             
+                // Seed dummy users
+                string seedUsers = @"
+                INSERT INTO Users (Username, Password, IsPaidUser, CreatedAt) VALUES 
+                ('alice', 'alice123', false, NOW()),
+                ('bob', 'bob123', false, NOW()),
+                ('charlie', 'charlie123', true, NOW()),
+                ('david', 'david123', false, NOW()),
+                ('diana', 'diana123', true, NOW()),
+                ('eve', 'eve123', false, NOW())";
 
-            string seedDummyUsers = @"
-            INSERT INTO Users (Username, Password, IsPaidUser, CreatedAt) VALUES
-            ('alice', 'pass123', 'FALSE' "
+                cmd = new MySqlCommand(seedUsers, conn);
+                cmd.ExecuteNonQuery();
+            }
 
-            ExecuteCommand(conn, seedUsers);
+            // Check if score table already has data
+            string countScoreSql = "SELECT COUNT(*) FROM Scores";
+            cmd = new MySqlCommand(countScoreSql, conn);
+            int scoreCount = Convert.ToInt32(cmd.ExecuteScalar());
 
-            // Seed Scores (using the user IDs we just created)
-            var seedScores = @"
-            INSERT INTO Scores (UserId, Username, CompletionTimeSeconds, CreatedAt) VALUES 
-            (1, 'testuser1', 45, NOW() - INTERVAL 5 DAY),
-            (2, 'testuser2', 67, NOW() - INTERVAL 4 DAY),
-            (3, 'speedrunner', 23, NOW() - INTERVAL 3 DAY),
-            (4, 'casual_gamer', 89, NOW() - INTERVAL 2 DAY),
-            (5, 'memory_master', 34, NOW() - INTERVAL 1 DAY),
-            (1, 'testuser1', 38, NOW()),
-            (3, 'speedrunner', 19, NOW()),
-            (6, 'demo_player', 56, NOW()),
-            (2, 'testuser2', 72, NOW() - INTERVAL 1 HOUR),
-            (5, 'memory_master', 28, NOW() - INTERVAL 30 MINUTE)";
+            if (scoreCount > 0)
+            {
+                Console.WriteLine("Score Data already exists, skipping seeding scores...");
+            }
+            else
+            {
+                // Seed Scores 
+                string seedScores = @"
+                INSERT INTO Scores (UserId, Username, CompletionTimeSeconds, CreatedAt) VALUES 
+                (1, 'alice', 45, NOW()),
+                (2, 'bob', 67, NOW() - INTERVAL 4 DAY),
+                (3, 'charlie', 23, NOW() - INTERVAL 3 DAY),
+                (4, 'david', 89, NOW() - INTERVAL 2 DAY),
+                (5, 'diana', 34, NOW() - INTERVAL 1 DAY),
+                (6, 'eve', 38, NOW())";
 
-            ExecuteCommand(conn, seedScores);
-
-            Console.WriteLine("✅ MySQL database seeded with initial data");
-            Console.WriteLine($"   📊 Created 6 test users (2 paid, 4 free)");
-            Console.WriteLine($"   🏆 Created 10 sample scores");
-        }
-
-        private static void ExecuteCommand(MySqlConnection connection, string sql)
-        {
-            using var command = new MySqlCommand(sql, connection);
-            command.ExecuteNonQuery();
+                cmd = new MySqlCommand(seedScores, conn);
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

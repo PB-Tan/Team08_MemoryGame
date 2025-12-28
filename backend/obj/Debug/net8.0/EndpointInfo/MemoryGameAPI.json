@@ -466,6 +466,57 @@
           }
         }
       }
+    },
+    "/api/Scores2": {
+      "post": {
+        "tags": [
+          "Scores2"
+        ],
+        "parameters": [
+          {
+            "name": "reqUsername",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reqCompletionTimeSeconds",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Scores2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Scores2/debug": {
+      "get": {
+        "tags": [
+          "Scores2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {

@@ -1,13 +1,13 @@
 namespace MemoryGameAPI.Models;
 
-// 登录请求
+// Login request
 public class LoginRequest
 {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 }
 
-// 登录响应
+// Login response
 public class LoginResponse
 {
     public bool Success { get; set; }
@@ -17,14 +17,14 @@ public class LoginResponse
     public string Message { get; set; } = string.Empty;
 }
 
-// 提交分数请求
+// Submit score request
 public class ScoreRequest
 {
     public string Username { get; set; } = string.Empty;
     public int CompletionTimeSeconds { get; set; }
 }
 
-// 创建房间请求
+// Create room request
 public class CreateRoomRequest
 {
     public string RoomName { get; set; } = string.Empty;
@@ -32,20 +32,20 @@ public class CreateRoomRequest
     public int MaxPlayers { get; set; } = 8;
 }
 
-// 加入房间请求
+// Join room request
 public class JoinRoomRequest
 {
     public string RoomCode { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
 }
 
-// 开始游戏请求
+// Start game request
 public class StartGameRequest
 {
     public string Username { get; set; } = string.Empty;
 }
 
-// 提交房间分数请求
+// Submit room score request
 public class SubmitRoomScoreRequest
 {
     public string RoomCode { get; set; } = string.Empty;
@@ -53,7 +53,7 @@ public class SubmitRoomScoreRequest
     public int CompletionTimeSeconds { get; set; }
 }
 
-// 退出房间请求
+// Leave room request
 public class LeaveRoomRequest
 {
     public string Username { get; set; } = string.Empty;

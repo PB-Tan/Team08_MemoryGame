@@ -43,7 +43,7 @@ try
     var connectionString = "server=localhost;uid=mg_user;pwd=password;database=memory_game";
 
     Console.WriteLine("Initializing MySQL database");
-    MySqlDbInitializer.Initialize(connectionString);
+    SeedDb.Initialize(connectionString);
     Console.WriteLine("MySQL database initialized successfully");
 }
 catch (Exception e)
