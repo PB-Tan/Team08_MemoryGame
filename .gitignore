@@ -27,3 +27,5 @@ local.properties
 
 /backend/bin/
 /backend/obj/
+/backend/obj/Debug/net8.0/MemoryGameAPI.AssemblyInfoInputs.cache
+/backend/obj/Debug/net8.0/MemoryGameAPI.AssemblyInfo.cs
