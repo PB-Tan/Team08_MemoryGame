@@ -16,6 +16,9 @@ namespace MemoryGameAPI.Data
                 // Seed initial data
                 SeedData(conn);
 
+                // Seed advertisements
+                AdSeeder.SeedAdvertisements(connectionString);
+
                 conn.Close();
             }
         }

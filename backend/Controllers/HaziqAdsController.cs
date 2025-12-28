@@ -1,5 +1,5 @@
-﻿using MemoryGameAPI.Data;
-using MemoryGameAPI.Models;
+﻿using MemoryGameAPI.Models;
+using MemoryGameAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

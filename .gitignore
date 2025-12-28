@@ -25,5 +25,5 @@ local.properties
 **/bin/
 **/obj/
 
-/backend/obj
-/backend/bin
+/backend/bin/
+/backend/obj/

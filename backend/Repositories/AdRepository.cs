@@ -1,12 +1,12 @@
 ﻿using MemoryGameAPI.Models;
 using MySqlConnector;
 
-namespace MemoryGameAPI.Data
+namespace MemoryGameAPI.Repositories
 {
-    public class AdData
+    public class AdRepository
     {
         private readonly string _connectionString;
-        public AdData(string connectionString)
+        public AdRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -38,5 +38,4 @@ namespace MemoryGameAPI.Data
             return advertisements;
         }
     }
-}
 }
