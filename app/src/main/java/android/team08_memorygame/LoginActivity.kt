@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
             JSONObject(responseText).apply {
                 val success = optBoolean("success", false)
                 val message = optString("message", "unknown response")
-                val isPaidUser = optBoolean("ispaiduser", false)
+                val isPaidUser = optBoolean("isPaidUser", false)
                 val username = optString("username", "unknown user")
 
                 //set usermanager to the values retrieved from HTTP response body

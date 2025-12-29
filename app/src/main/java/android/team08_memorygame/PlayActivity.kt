@@ -6,9 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.team08_memorygame.databinding.ActivityPlayBinding
 import android.view.View
-import android.widget.Button
 import android.widget.GridView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -158,8 +156,8 @@ class PlayActivity : AppCompatActivity() {
             running = false
             sendTimeToDotNet(seconds)
             //navigate to leaderboard
-            val intent = Intent(this@PlayActivity, LeaderboardActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this@PlayActivity, LeaderboardActivity::class.java)
+//            startActivity(intent)
         }
     }
 
@@ -171,7 +169,7 @@ class PlayActivity : AppCompatActivity() {
         Thread {
             val result = sendScore(playerName, timeInSeconds)
             runOnUiThread {
-                Toast.makeText(this@PlayActivity, result.message, Toast.LENGTH_SHORT)
+                Toast.makeText(this@PlayActivity, result.message, Toast.LENGTH_SHORT).show()
             }
         }.start()
     }
