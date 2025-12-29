@@ -45,10 +45,10 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="50dp"
-        android:id="@+id/fragment_container_view"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:navGraph="@navigation/ad_nav_graph"
         app:defaultNavHost="false"

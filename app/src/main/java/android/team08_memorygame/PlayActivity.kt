@@ -14,8 +14,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
 
+
+data class submitScoreResult (val success: Boolean, val message: String)
 class PlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayBinding
 
@@ -28,8 +34,6 @@ class PlayActivity : AppCompatActivity() {
     // game
     private var firstSelectedPosition: Int = -1
     private var isBusy = false
-    private lateinit var timeTextView: TextView
-    private lateinit var stopButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +56,7 @@ class PlayActivity : AppCompatActivity() {
         }
 
         //score_button
-        val leaderboardBtn = findViewById<Button>(R.id.leader_button)
-        leaderboardBtn.setOnClickListener {
+        binding.leaderButton.setOnClickListener {
             startActivity(Intent(this, LeaderboardActivity::class.java))
         }
 
@@ -88,17 +91,15 @@ class PlayActivity : AppCompatActivity() {
     }
 
     private fun onCardClicked(position: Int) {
-    if (!hasStarted) { //first time play
-        hasStarted = true
-        running = true
-        seconds = 0
-        startTimerInBackground()
-    } else if (!running) { //continue
-        running = true
-        startTimerInBackground()
-    }
-
-
+        if (!hasStarted) { //first time play
+            hasStarted = true
+            running = true
+            seconds = 0
+            startTimerInBackground()
+        } else if (!running) { //continue
+            running = true
+            startTimerInBackground()
+        }
 
         val currentCard = cardList[position]
         // no return type so return means over
@@ -132,10 +133,8 @@ class PlayActivity : AppCompatActivity() {
             }
         }
 
-    //click buttons
-
-
-        stopButton.setOnClickListener {
+        //click buttons
+        binding.stopButton.setOnClickListener {
             running = false
         }
 
@@ -147,7 +146,7 @@ class PlayActivity : AppCompatActivity() {
                 Thread.sleep(1000)
                 seconds++
                 runOnUiThread {
-                    timeTextView.text = "Time: $seconds s"
+                    binding.timeTextView.text = "Time: $seconds s"
                 }
             }
         }.start()
@@ -155,29 +154,58 @@ class PlayActivity : AppCompatActivity() {
 
     private fun checkWin() {
         if (cardList.all { it.isMatched }) {
-            Toast.makeText(this, "Congratulations!", Toast.LENGTH_SHORT).show()
             //when game is completed stop timing
             running = false
-
             sendTimeToDotNet(seconds)
+            //navigate to leaderboard
+            val intent = Intent(this@PlayActivity, LeaderboardActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun sendTimeToDotNet(timeInSeconds: Int) {
-        sendScore("player1", timeInSeconds)
-    }
+        val playerName = UserManager.username!!
 
-    private fun sendScore(username: String, timeInSeconds: Int) {
-        val urlString =
-            "http://10.0.2.2:5000/api/leaderboard?username=$username&time=$timeInSeconds"
-
+//        if (playerName == null)
+//            Toast.makeText(this@PlayActivity, "Please login to submit score", Toast.LENGTH_SHORT).show()
         Thread {
-            try {
-                URL(urlString).openStream().close()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            val result = sendScore(playerName, timeInSeconds)
+            runOnUiThread {
+                Toast.makeText(this@PlayActivity, result.message, Toast.LENGTH_SHORT)
             }
         }.start()
     }
 
+    private fun sendScore(username: String, timeInSeconds: Int): submitScoreResult {
+        val urlString = URL("http://10.0.2.2:5000/api/Scores2")
+
+        //Connect to UrlString and prepare header
+        val conn = (urlString.openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST" // We are calling a [HttpPost("login")] endpoint
+            connectTimeout = 10_000
+            readTimeout = 10_000
+            doOutput = true // We will write a request body (POST body) to the server
+            // Tell the server what format we are sending in the request body
+            setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        }
+
+        //pass the username and completed time to the request body
+        val requestBody = "reqUsername=$username&reqCompletionTimeSeconds=$timeInSeconds"
+
+        conn.outputStream.use {
+            os -> os.write(requestBody.toByteArray(Charsets.UTF_8))
+        }
+
+        val stream =
+            if (conn.responseCode in 200..299) conn.inputStream
+            else conn.errorStream
+
+        val responseText = BufferedReader(InputStreamReader(stream)).use { it.readText() }
+
+        JSONObject(responseText).apply {
+            val success = optBoolean("success", false)
+            val message = optString("message", "unknown response")
+            return submitScoreResult(success, message)
+        }
+    }
 }

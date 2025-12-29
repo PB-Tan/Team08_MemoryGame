@@ -1,15 +1,10 @@
 package android.team08_memorygame
 
-import android.R.attr.password
-import android.R.id.message
-import android.R.string.ok
+
 import android.content.Intent
 import android.os.Bundle
-import android.team08_memorygame.UserManager
 import android.team08_memorygame.databinding.ActivityLoginBinding
-import android.util.Log.e
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -97,8 +92,6 @@ class LoginActivity : AppCompatActivity() {
             // reading the response body from the server
             val responseText =
                 BufferedReader(InputStreamReader(stream)).use { it.readText() }
-            val code = conn.responseCode
-            android.util.Log.d("LOGIN", "code=$code body=$responseText")
             // Unwrapping the response body using JSON body
             JSONObject(responseText).apply {
                 val success = optBoolean("success", false)

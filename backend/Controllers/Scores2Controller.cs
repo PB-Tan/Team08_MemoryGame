@@ -19,7 +19,7 @@ namespace MemoryGameAPI.Controllers
 
         //POST /api/Scores2
         [HttpPost]
-        public IActionResult SubmitScores(string reqUsername, int reqCompletionTimeSeconds)
+        public IActionResult SubmitScores([FromForm]string reqUsername,[FromForm] int reqCompletionTimeSeconds)
         {
 
             //First, we check if user exists in db
@@ -84,7 +84,7 @@ namespace MemoryGameAPI.Controllers
             //Thus, we do not make any changes to the database, and exit the program.
             var noScoreUpdatedMessage = new
             {
-                Success = false,
+                Success = true,
                 Message = "User did not perform better than previous attempt. No records were updated"
             };
             return new ObjectResult(noScoreUpdatedMessage);
