@@ -50,6 +50,13 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
 
+// for the progress bar - material design
+    implementation("com.google.android.material:material:1.10.0")
+
+    //timer gif
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

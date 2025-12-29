@@ -2,6 +2,7 @@ package android.team08_memorygame
 
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.team08_memorygame.databinding.ActivityLoginBinding
 import android.widget.Toast
@@ -40,6 +41,10 @@ class LoginActivity : AppCompatActivity() {
         CookieHandler.setDefault(cm)
 
         binding.loginButton.setOnClickListener {
+            val mp = MediaPlayer.create(this@LoginActivity, R.raw.click_sound)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
+
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
             if (username.isEmpty() || password.isEmpty()) {

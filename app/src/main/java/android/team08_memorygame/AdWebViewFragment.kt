@@ -58,6 +58,7 @@ class AdWebViewFragment : androidx.fragment.app.DialogFragment() {
             }
         })
         binding.closeAdButton.setOnClickListener {
+
             findNavController().navigate(R.id.action_adWebViewFragment_to_premiumFragment)
         }
     }

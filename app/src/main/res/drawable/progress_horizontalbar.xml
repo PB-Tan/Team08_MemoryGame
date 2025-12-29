@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<!--PROGRESS BAR LAYERS -->
+<!--    outline (border) background-->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/white" />
+        </shape>
+  </item>
+
+<!--    inner progress loading -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+            <corners android:radius="8dp"/>
+                <gradient
+                    android:startColor="#FDC830"
+                    android:endColor="#F37335"
+                    android:angle="315" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

@@ -1,15 +1,19 @@
 package android.team08_memorygame
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.team08_memorygame.databinding.ActivityPlayBinding
 import android.view.View
+import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
@@ -44,6 +48,16 @@ class PlayActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+//see the rank
+
+        val backButton = findViewById<ImageButton>(R.id.back)
+        backButton.setOnClickListener {
+            val mp = MediaPlayer.create(this@PlayActivity, R.raw.click_sound)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
+            val intent = Intent(this, FetchActivity::class.java)
+            startActivity(intent)
+        }
 
         // If user is Premium, HIDE ads (GONE).
         // If user is NOT Premium, SHOW ads (VISIBLE).
@@ -55,6 +69,9 @@ class PlayActivity : AppCompatActivity() {
 
         //score_button
         binding.leaderButton.setOnClickListener {
+            val mp = MediaPlayer.create(this@PlayActivity, R.raw.click_sound)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
             startActivity(Intent(this, LeaderboardActivity::class.java))
         }
 
@@ -82,7 +99,7 @@ class PlayActivity : AppCompatActivity() {
         val gridView = findViewById<GridView>(R.id.gridView)
         adapter = MemoryAdapter(this, cardList)
         gridView.adapter = adapter
-
+        
         gridView.setOnItemClickListener { _, _, position, _ ->
             onCardClicked(position)
         }

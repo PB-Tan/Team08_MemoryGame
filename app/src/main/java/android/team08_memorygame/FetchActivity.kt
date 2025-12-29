@@ -1,10 +1,13 @@
 package android.team08_memorygame
 
+
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.team08_memorygame.databinding.ActivityFetchBinding
+import android.view.SoundEffectConstants
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,9 +17,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import org.jsoup.Jsoup
-import kotlin.random.Random
+
+
 
 class FetchActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityFetchBinding
 
@@ -55,6 +60,10 @@ class FetchActivity : AppCompatActivity() {
         // init buttons
         binding.apply {
             fetchButton.setOnClickListener {
+                val mp = MediaPlayer.create(this@FetchActivity, R.raw.click_sound)
+                mp.setOnCompletionListener { it.release() }
+                mp.start()
+
                 val pageUrl = urlField.text.toString()
                 if (pageUrl.isNotEmpty()) {
                     fetchImages(pageUrl)
@@ -62,6 +71,10 @@ class FetchActivity : AppCompatActivity() {
             }
 
             startButton.setOnClickListener {
+                val mp = MediaPlayer.create(this@FetchActivity, R.raw.click_sound)
+                mp.setOnCompletionListener { it.release() }
+                mp.start()
+
                 val adapter = recyclerView.adapter as? ImageAdapter
                 val selected = adapter?.getSelectedImages() ?: emptyList()
                 if (selected.size != 6) {
@@ -70,12 +83,14 @@ class FetchActivity : AppCompatActivity() {
                 }
 
                 // Pass the 6 images to PlayActivity
-                val intent = Intent(this@FetchActivity, PlayActivity::class.java)
+                val intent = Intent(this@FetchActivity, SplashActivity::class.java)
                 intent.putStringArrayListExtra("images", ArrayList(selected))
                 startActivity(intent)
             }
 
             deleteButton.setOnClickListener {
+
+
                 deleteAllImages()
             }
         }
@@ -255,11 +270,14 @@ class FetchActivity : AppCompatActivity() {
         simulateRunnable = null
     }
 
+
+
     private fun showWelcomePopup() {
         val dialog = AlertDialog.Builder(this)
             .setTitle("Welcome back!")
             .setMessage("Ready to start a new game?")
             .setCancelable(false)
+            .setIcon(R.drawable.exclamation_dialog)
             .setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
             .setNegativeButton("Cancel") { _, _ -> finish() }.create()
 
