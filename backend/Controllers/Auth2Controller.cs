@@ -20,7 +20,7 @@ namespace MemoryGameAPI.Controllers
                 return new ObjectResult(new
                 {
                     Success = false,
-                    Message = "Username and/or password cannot be empty"
+                    Message = "Username and/or password cannot be empty",
                 });
             }
 
@@ -31,7 +31,7 @@ namespace MemoryGameAPI.Controllers
                 return new ObjectResult(new
                 {
                     Success = false,
-                    Message = "Username or password incorrect"
+                    Message = "Username or password incorrect",
                 });
             }
             else
@@ -46,7 +46,9 @@ namespace MemoryGameAPI.Controllers
                 return new ObjectResult(new
                 {
                     Success = true,
-                    Message = "User has been authenticated"
+                    Message = "User has been authenticated",
+                    IsPaidUser = reqUser.IsPaidUser,
+                    Username = reqUser.Username
                 });
             }
         }

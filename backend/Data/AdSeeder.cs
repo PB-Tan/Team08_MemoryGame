@@ -1,5 +1,5 @@
 using MemoryGameAPI.Models;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 
 namespace MemoryGameAPI.Data;
 

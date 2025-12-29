@@ -37,7 +37,8 @@ class PlayActivity : AppCompatActivity() {
         }
 //see the rank
 
-
+        // If user is Premium, HIDE ads (GONE).
+        // If user is NOT Premium, SHOW ads (VISIBLE).
         if(UserManager.userIsPremium){
             binding.fragmentContainerView.visibility = View.GONE
         } else {

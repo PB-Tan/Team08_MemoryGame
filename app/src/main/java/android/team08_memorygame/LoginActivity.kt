@@ -5,7 +5,7 @@ import android.R.id.message
 import android.R.string.ok
 import android.content.Intent
 import android.os.Bundle
-import android.team08_memorygame.UserManager.userId
+import android.team08_memorygame.UserManager
 import android.team08_memorygame.databinding.ActivityLoginBinding
 import android.util.Log.e
 import android.widget.Toast
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.jvm.java
 
-data class LoginResult (val success: Boolean, val Message: String)
+data class LoginResult (val success: Boolean, val message: String)
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             Thread {
                 val result = doLogin(username, password)
                 runOnUiThread {
-                    Toast.makeText(this@LoginActivity, result.Message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, result.message, Toast.LENGTH_SHORT).show()
 
                     if (result.success) {
                         val intent = Intent(this, FetchActivity::class.java)
@@ -103,6 +103,12 @@ class LoginActivity : AppCompatActivity() {
             JSONObject(responseText).apply {
                 val success = optBoolean("success", false)
                 val message = optString("message", "unknown response")
+                val isPaidUser = optBoolean("ispaiduser", false)
+                val username = optString("username", "unknown user")
+
+                //set usermanager to the values retrieved from HTTP response body
+                UserManager.setPremiumStatus(isPaidUser)
+                UserManager.username = username
                 return LoginResult(success, message)
             }
         }catch(e: Exception) {

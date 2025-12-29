@@ -11,13 +11,13 @@ namespace MemoryGameAPI.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        private readonly AdData _advertisementData;
+        private readonly AdRepository _advertisementData;
 
         public HaziqAdsController(IConfiguration configuration)
         {
             _configuration = configuration;
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            _advertisementData = new AdData(connectionString);
+            _advertisementData = new AdRepository(connectionString);
         }
 
         [HttpGet]
