@@ -16,8 +16,7 @@ namespace MemoryGameAPI.Controllers
         public HaziqAdsController(IConfiguration configuration)
         {
             _configuration = configuration;
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            _advertisementData = new AdRepository(connectionString);
+            _advertisementData = new AdRepository(_configuration);
         }
 
         [HttpGet]

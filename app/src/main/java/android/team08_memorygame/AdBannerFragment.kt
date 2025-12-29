@@ -64,7 +64,7 @@ class AdBannerFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
             try{
                 // fetch JSON data
-                val jsonStr = URL("http://10.0.2.2:5254/api/advertisements").readText()
+                val jsonStr = URL("http://10.0.2.2:5000/api/HaziqAds").readText()
 
                 // parse JSON
                 val jsonArray = JSONArray(jsonStr)

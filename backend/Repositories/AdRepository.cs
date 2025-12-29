@@ -6,12 +6,13 @@ namespace MemoryGameAPI.Repositories
     public class AdRepository
     {
         private readonly string _connectionString;
-        public AdRepository(string connectionString)
+        public AdRepository(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new ArgumentNullException(nameof(configuration), "Connection string 'DefaultConnection' not found.");
         }
 
-        // Methods to interact with the database would go here
+        // Methods to interact with the dastabase would go here
         public List<Advertisement> GetAdvertisements()
         {
             List<Advertisement> advertisements = new List<Advertisement>();

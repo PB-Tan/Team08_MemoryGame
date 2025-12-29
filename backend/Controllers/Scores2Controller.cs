@@ -8,8 +8,14 @@ namespace MemoryGameAPI.Controllers
     [Route("api/[controller]")]
     public class Scores2Controller : Controller
     {
-        ScoreRepository scoreRepo = new ScoreRepository();
-        UserRepository userRepo = new UserRepository();
+        private readonly UserRepository _userRepo;
+        private readonly ScoreRepository _scoreRepo;
+        // Constructor injection
+        public Scores2Controller(UserRepository userRepo, ScoreRepository scoreRepo)
+        {
+            _userRepo = userRepo;
+            _scoreRepo = scoreRepo;
+        }
 
         //POST /api/Scores2
         [HttpPost]
@@ -17,7 +23,7 @@ namespace MemoryGameAPI.Controllers
         {
 
             //First, we check if user exists in db
-            User? reqUser = userRepo.findUserByUsername(reqUsername);
+            User? reqUser = _userRepo.findUserByUsername(reqUsername);
             var userNotFoundMessage = new
             {
                 Success = false,
@@ -29,7 +35,7 @@ namespace MemoryGameAPI.Controllers
             // Second, we check if scores exists.
             // If scores does not exists, then user is a first-time player
             // we will create a fresh score for new user.
-            Score? existingScore = scoreRepo.GetScoreByUsername(reqUsername);
+            Score? existingScore =_scoreRepo.GetScoreByUsername(reqUsername);
             if (existingScore == null)
             {
                 Score newScore = new Score()
@@ -39,7 +45,7 @@ namespace MemoryGameAPI.Controllers
                     CompletionTimeSeconds = reqCompletionTimeSeconds,
                     CreatedAt = DateTime.Now                    
                 };
-                scoreRepo.CreateScore(newScore);
+               _scoreRepo.CreateScore(newScore);
 
                 // we now exit the method by return a Success result
                 var newScoreCreatedMessage = new
@@ -63,7 +69,7 @@ namespace MemoryGameAPI.Controllers
                     CompletionTimeSeconds = reqCompletionTimeSeconds,
                     CreatedAt = DateTime.Now
                 };
-                scoreRepo.UpdateScore(newScore);
+               _scoreRepo.UpdateScore(newScore);
 
                 // we now exit the method by returning a Success result
                 var newScoreUpdatedMessage = new
@@ -88,7 +94,7 @@ namespace MemoryGameAPI.Controllers
         //GET /api/Scores2/top5
         public IActionResult GetTop5Scores()
         {
-            List<Score> top5 = scoreRepo.GetTop5Scores();
+            List<Score> top5 =_scoreRepo.GetTop5Scores();
             return new ObjectResult(top5);
         }
 
@@ -98,7 +104,7 @@ namespace MemoryGameAPI.Controllers
         public IActionResult GetAllScores()
         {
             List<Score> allScores = new List<Score>();
-            allScores = scoreRepo.GetAllScores();
+            allScores =_scoreRepo.GetAllScores();
             return new ObjectResult(allScores);
         }
 

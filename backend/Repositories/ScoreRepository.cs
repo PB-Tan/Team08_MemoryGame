@@ -6,8 +6,12 @@ namespace MemoryGameAPI.Repositories;
 
 public class ScoreRepository
 {
-    private readonly string _connectionString = @"server=localhost;uid=mg_user;pwd=password;database=memory_game";
-
+    private readonly string _connectionString;
+    public ScoreRepository(IConfiguration configuration)
+    {
+        _connectionString = configuration.GetConnectionString("DefaultConnection")
+            ?? throw new ArgumentNullException(nameof(configuration), "Connection string 'DefaultConnection' not found.");
+    }
     public Score? GetScoreByUsername(String username)
     {
         using (MySqlConnection conn = new MySqlConnection(_connectionString))

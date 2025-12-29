@@ -31,7 +31,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddScoped<ScoreRepository>();
+builder.Services.AddSingleton<ScoreRepository>();
+builder.Services.AddSingleton<AdRepository>();
+builder.Services.AddSingleton<UserRepository>();
+
 
 // Configure to listen on all network interfaces (LAN access)
 builder.WebHost.UseUrls("http://0.0.0.0:5000");

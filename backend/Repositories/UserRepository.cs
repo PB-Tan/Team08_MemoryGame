@@ -5,8 +5,13 @@ namespace MemoryGameAPI.Repositories
 {
     public class UserRepository
     {
-        private readonly string _connectionString = @"server=localhost;uid=mg_user;pwd=password;database=memory_game";
-        
+        private readonly string _connectionString;
+        public UserRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new ArgumentNullException(nameof(configuration), "Connection string 'DefaultConnection' not found.");
+        }
+
         public User? findUserByUsername(String username)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))

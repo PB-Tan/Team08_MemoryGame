@@ -9,7 +9,13 @@ namespace MemoryGameAPI.Controllers
     [Route("api/[controller]")]
     public class Auth2Controller : ControllerBase
     {
-        UserRepository userRepo = new UserRepository();
+        private readonly UserRepository _userRepo;
+
+        // Constructor injection
+        public Auth2Controller(UserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
 
         [HttpPost("login")]
         public IActionResult Login([FromForm] string reqUsername, [FromForm] string reqPassword)
@@ -25,7 +31,7 @@ namespace MemoryGameAPI.Controllers
             }
 
             //next we check if the requested user exists in db and check if password is valid
-            User? reqUser = userRepo.findUserByUsername(reqUsername);
+            User? reqUser =_userRepo.findUserByUsername(reqUsername);
             if (reqUser == null || reqUser.Password != reqPassword)
             {
                 return new ObjectResult(new
@@ -56,7 +62,7 @@ namespace MemoryGameAPI.Controllers
         [HttpGet("AllUsers")]
         public IActionResult GetAllUsers()
         {
-            List<User> userList = userRepo.GetAllUsers();
+            List<User> userList =_userRepo.GetAllUsers();
             return new ObjectResult(userList);
         }
 
