@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toTopOf="@id/podiumLayout"
         android:elevation="12dp"
         android:background="#99FFFFFF">
-        <!-- Back button-->
+
         <ImageButton
             android:id="@+id/back"
             android:layout_width="50dp"
@@ -30,7 +30,6 @@
             android:background="@null"
             android:padding="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/backbutton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
