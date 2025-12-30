@@ -14,8 +14,10 @@
     <color name="colorPrimaryDark">#040404</color>
     <color name="colorAccent">#D81B60</color>
 
-
-
 <!--    LeaderBoard Activity-->
     <color name="grey">#bab8b1</color>
+
+<!--    odd even colors in leaderboards-->
+    <color name="row_odd">#EBB866</color>
+    <color name="row_even">#bab8b1</color>
 </resources>

@@ -53,14 +53,6 @@
             android:inputType="textPassword"
             android:padding="12dp"/>
 
-        <TextView
-            android:id="@+id/forgot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="right"
-            android:layout_marginEnd="72dp"/>
     </LinearLayout>
 
     <!-- BUTTON SECTION -->
@@ -85,13 +77,7 @@
             android:background="@drawable/embossed_button">
         </androidx.appcompat.widget.AppCompatButton>
 
-        <TextView
-            android:id="@+id/tv_create_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create a new Account"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+
 
     </LinearLayout>
 

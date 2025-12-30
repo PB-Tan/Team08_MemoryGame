@@ -26,6 +26,17 @@ class LeaderboardAdapter(private val scores: List<Score>) :
         holder.rankText.text = "${position + 1}"
         holder.nameText.text = score.name
         holder.scoreText.text = score.score.toString()
+
+        // Odd / Even row coloring for the leaderboard list view
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.row_even)
+            )
+        } else {
+            holder.itemView.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.row_odd)
+            )
+        }
     }
 
     override fun getItemCount(): Int = scores.size

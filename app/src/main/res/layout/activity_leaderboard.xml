@@ -57,7 +57,6 @@
             android:layout_height="50dp"
             android:background="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/hamburger_button"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -110,11 +109,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="bottom|center_horizontal">
+            android:gravity="bottom|center_horizontal"
+            android:layout_marginTop="40dp">
 
             <ImageView
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/crown" />
             <View

@@ -56,7 +56,6 @@
             android:layout_height="50dp"
             android:background="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/hamburger_button"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
