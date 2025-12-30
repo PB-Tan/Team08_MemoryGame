@@ -94,6 +94,7 @@ class LeaderboardActivity : AppCompatActivity() {
                 }
                 reader.close()
 
+                //response body is in JSON formatting
                 val jsonArray = JSONArray(response.toString())
 
                 // First we will create the leaderboard Items
