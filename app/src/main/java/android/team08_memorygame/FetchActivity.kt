@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.team08_memorygame.databinding.ActivityFetchBinding
-import android.view.SoundEffectConstants
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -89,8 +88,6 @@ class FetchActivity : AppCompatActivity() {
             }
 
             deleteButton.setOnClickListener {
-
-
                 deleteAllImages()
             }
         }
@@ -178,9 +175,9 @@ class FetchActivity : AppCompatActivity() {
                 if (src.isNotEmpty() &&
                     (src.endsWith(".jpg") || src.endsWith(".jpeg") || src.endsWith(".png"))
                 ) {
-                    if (pageUrl.contains("stocksnap.io") && !src.contains("/img-thumbs/")) {
-                        continue
-                    }
+//                    if (pageUrl.contains("stocksnap.io") && !src.contains("/img-thumbs/")) {
+//                        continue
+//                    }
                     imageUrls.add(src)
                 }
             }

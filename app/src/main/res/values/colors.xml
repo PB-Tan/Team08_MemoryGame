@@ -5,7 +5,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gold">#D09B03</color>
+    <color name="red">#F96E5B</color>
     <color name="darkgold">#B59410</color>
+    <color name="olivegreen">#93BD57</color>
 
 <!-- Login Activity   -->
     <color name="colorPrimary">#008577</color>

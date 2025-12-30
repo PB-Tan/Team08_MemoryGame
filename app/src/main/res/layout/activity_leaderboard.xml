@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/leaderboardactivity"
+        android:id="@+id/activity_leaderboard"
         android:background="@drawable/leaderboard_gradient"
         tools:context=".LeaderboardActivity">
 
@@ -111,11 +111,12 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="bottom|center_horizontal">
+
             <ImageView
                 android:layout_width="60dp"
-                android:layout_height="80dp"
-                android:src="@drawable/crown"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/crown" />
             <View
                 android:id="@+id/podium1"
                 android:layout_width="60dp"
@@ -196,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
-            android:text="@string/score"
+            android:text="Replay"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
