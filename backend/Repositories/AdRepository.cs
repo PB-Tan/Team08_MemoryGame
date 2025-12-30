@@ -1,17 +1,18 @@
 ﻿using MemoryGameAPI.Models;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 
-namespace MemoryGameAPI.Data
+namespace MemoryGameAPI.Repositories
 {
-    public class AdData
+    public class AdRepository
     {
         private readonly string _connectionString;
-        public AdData(string connectionString)
+        public AdRepository(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new ArgumentNullException(nameof(configuration), "Connection string 'DefaultConnection' not found.");
         }
 
-        // Methods to interact with the database would go here
+        // Methods to interact with the dastabase would go here
         public List<Advertisement> GetAdvertisements()
         {
             List<Advertisement> advertisements = new List<Advertisement>();
@@ -38,5 +39,4 @@ namespace MemoryGameAPI.Data
             return advertisements;
         }
     }
-}
 }

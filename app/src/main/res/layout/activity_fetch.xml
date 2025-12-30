@@ -21,6 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="12dp"
         android:background="#99FFFFFF">
+
         <!-- Back button-->
         <ImageButton
             android:id="@+id/back"
@@ -29,78 +30,25 @@
             android:background="@null"
             android:padding="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/backbutton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
-        <!-- header-->
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/url_field"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="https://pixabay.com/images/search/nature/"
-                    android:hint="Enter Image URL"/>
-
-            <Button
-                android:id="@+id/fetch_button"
-                android:text="Fetch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/progressContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingTop="8dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1"
-            android:max="20"
-            android:progress="0"/>
-
+        <!-- title-->
         <TextView
-            android:id="@+id/tvProgress"
-            android:layout_width="wrap_content"
+            android:id="@+id/fetch_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_marginTop="16dp"
-                android:text="Delete all images"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="PLAY TIME"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sidebar"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintTop_toTopOf="parent"
+            />
         <!-- menu bar icon (hamburger)-->
         <ImageButton
             android:id="@+id/sidebar"
@@ -117,10 +65,105 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--    FOOTER-->
+<!--    content view -->
+        <LinearLayout
+            android:id="@+id/contentview"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/header_nav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/footer_nav">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/url_field"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:textSize="16dp"
+                    android:layout_height="wrap_content"
+                    android:text="https://pixabay.com/images/search/nature/"
+                    android:hint="Enter Image URL"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fetch_button"
+                    android:text="Fetch"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="5dp"
+                    android:elevation="8dp"
+                    android:background="@drawable/embossed_button"
+                    android:clickable="true"
+                    android:enabled="true"
+                    android:soundEffectsEnabled="true"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/progressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/progress_horizontalbar"                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_weight="1"
+                    android:max="20"
+                    android:progress="0"/>
+
+                <TextView
+                    android:id="@+id/tvProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#f67833"
+                    android:text="" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/delete_button"
+                android:layout_marginTop="16dp"
+                android:text="Delete all images"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:elevation="8dp"
+                android:background="@drawable/embossed_button"
+                android:soundEffectsEnabled="true"/>
+        </LinearLayout>
+
+
+    <!--    FOOTER-->
 
     <!--    start button layout-->
     <LinearLayout
+        android:id="@+id/footer_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -140,10 +183,17 @@
             android:textColor="@android:color/white"
             android:layout_marginVertical="20dp"
             android:elevation="10dp"
-            android:background="@drawable/embossed_button">
+            android:background="@drawable/embossed_button"
+            android:clickable="true"
+            android:enabled="true"
+            android:soundEffectsEnabled="true">
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

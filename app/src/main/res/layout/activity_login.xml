@@ -60,7 +60,7 @@
             android:text="Forgot Password?"
             android:layout_marginTop="10dp"
             android:layout_gravity="right"
-            android:layout_marginEnd="68dp"/>
+            android:layout_marginEnd="72dp"/>
     </LinearLayout>
 
     <!-- BUTTON SECTION -->

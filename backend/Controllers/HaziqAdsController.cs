@@ -1,5 +1,5 @@
-﻿using MemoryGameAPI.Data;
-using MemoryGameAPI.Models;
+﻿using MemoryGameAPI.Models;
+using MemoryGameAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +11,12 @@ namespace MemoryGameAPI.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        private readonly AdData _advertisementData;
+        private readonly AdRepository _advertisementData;
 
         public HaziqAdsController(IConfiguration configuration)
         {
             _configuration = configuration;
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            _advertisementData = new AdData(connectionString);
+            _advertisementData = new AdRepository(_configuration);
         }
 
         [HttpGet]
