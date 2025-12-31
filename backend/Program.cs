@@ -43,8 +43,7 @@ var app = builder.Build();
 
 try
 {
-    var connectionString = "server=localhost;uid=mg_user;pwd=password;database=memory_game";
-
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     Console.WriteLine("Initializing MySQL database");
     SeedDb.Initialize(connectionString);
     Console.WriteLine("MySQL database initialized successfully");
@@ -52,7 +51,7 @@ try
 catch (Exception e)
 {
     Console.WriteLine($"Database initialization failed: {e.Message}");
-    Console.WriteLine($"Make sure MySQL is running and credentials are correct");
+    Console.WriteLine("Make sure MySQL is running and credentials inside backend/appsettings.json are correct");
     throw; 
 }
 

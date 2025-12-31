@@ -36,6 +36,7 @@ class PlayActivity : AppCompatActivity() {
     private var timerRunning = false
     private var timerThread: Thread? = null
     private var firstAttempt = true
+    private var playProgress: Int = 0
 
     // game
     private var firstSelectedPosition: Int = -1
@@ -68,14 +69,6 @@ class PlayActivity : AppCompatActivity() {
                 swapColor()
             }
 
-            //return to fetch activity
-            back.setOnClickListener {
-                val mp = MediaPlayer.create(this@PlayActivity, R.raw.click_sound)
-                mp.setOnCompletionListener { it.release() }
-                mp.start()
-                val intent = Intent(this@PlayActivity, FetchActivity::class.java)
-                startActivity(intent)
-            }
         }
         setupGame()
     }
@@ -141,6 +134,8 @@ class PlayActivity : AppCompatActivity() {
             if (firstCard.imageUrl == currentCard.imageUrl) {
                 firstCard.isMatched = true
                 currentCard.isMatched = true
+                playProgress += 2
+                binding.displayPlayProgress.text = " $playProgress /12"
                 firstSelectedPosition = -1//clear
                 checkWin()
             } else {
