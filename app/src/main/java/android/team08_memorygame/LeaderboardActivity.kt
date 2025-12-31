@@ -106,14 +106,12 @@ class LeaderboardActivity : AppCompatActivity() {
                     leaderboardItems.add(Score(name, scoreTime))
                 }
 
-                //  podium heights for the top 3 players
+                val sorted = leaderboardItems.sortedBy { it.score }
+                binding.leaderboardRecyclerView.adapter = LeaderboardAdapter(sorted)
 
-                if (leaderboardItems.size >= 3) {
-                    binding.apply {
-                        podium1.layoutParams.height = 650  // 1st place winner
-                        podium2.layoutParams.height = 450  // 2nd place runner1
-                        podium3.layoutParams.height = 300   // 3rd place runner 2
-                    }
+                if (sorted.size >= 3) {
+                    applyPodium(sorted.take(3))
+                    animatePodiums()
                 }
 
                 binding.apply {
@@ -125,7 +123,6 @@ class LeaderboardActivity : AppCompatActivity() {
                 }
 
             }
-
             connection.disconnect()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -149,6 +146,56 @@ class LeaderboardActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun applyPodium(top3: List<Score>) {
+        // top3 assumed sorted by time ascending (best first)
+        val times = top3.map { it.score }
+        val minT = times.minOrNull() ?: return
+        val maxT = times.maxOrNull() ?: return
+        val range = (maxT - minT).coerceAtLeast(1)
+
+        fun dp(dp: Int) = (dp * resources.displayMetrics.density).toInt()
+        val maxBar = dp(220)
+        val minBar = dp(120)
+
+        fun heightFor(time: Int): Int {
+            val norm = (maxT - time).toFloat() / range // best => 1, worst => 0
+            return (minBar + norm * (maxBar - minBar)).toInt()
+        }
+
+        // mapping: 2nd=left, 1st=middle, 3rd=right
+        val first = top3[0]
+        val second = top3[1]
+        val third = top3[2]
+
+        binding.podium1.layoutParams.height = heightFor(first.score)
+        binding.podium2.layoutParams.height = heightFor(second.score)
+        binding.podium3.layoutParams.height = heightFor(third.score)
+
+        // if you added labels:
+        // binding.podium1Name.text = first.name
+        // binding.podium1Time.text = formatTime(first.score)
+        // ... same for 2 and 3
+
+        binding.podium1.requestLayout()
+        binding.podium2.requestLayout()
+        binding.podium3.requestLayout()
+
+        fun formatTime(totalSeconds: Int): String {
+            val m = totalSeconds / 60
+            val s = totalSeconds % 60
+            return "%d:%02d".format(m, s)
+        }
+
+        binding.podium1Name.text = first.name
+        binding.podium1Time.text = formatTime(first.score)
+
+        binding.podium2Name.text = second.name
+        binding.podium2Time.text = formatTime(second.score)
+
+        binding.podium3Name.text = third.name
+        binding.podium3Time.text = formatTime(third.score)
     }
 }
 

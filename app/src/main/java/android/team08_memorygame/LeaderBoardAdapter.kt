@@ -21,11 +21,17 @@ class LeaderboardAdapter(private val scores: List<Score>) :
         return ScoreViewHolder(view)
     }
 
+    private fun formatTime(totalSeconds: Int): String {
+        val m = totalSeconds / 60
+        val s = totalSeconds % 60
+        return "%d:%02d".format(m, s)
+    }
+
     override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) {
         val score = scores[position]
         holder.rankText.text = "${position + 1}"
         holder.nameText.text = score.name
-        holder.scoreText.text = score.score.toString()
+        holder.scoreText.text = formatTime(score.score)
 
         // Odd / Even row coloring for the leaderboard list view
         if (position % 2 == 0) {

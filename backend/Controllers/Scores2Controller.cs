@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Protobuf;
 using MemoryGameAPI.Models;
 using MemoryGameAPI.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemoryGameAPI.Controllers
 {
+    
+
     [ApiController]
     [Route("api/[controller]")]
     public class Scores2Controller : Controller
@@ -16,6 +19,8 @@ namespace MemoryGameAPI.Controllers
             _userRepo = userRepo;
             _scoreRepo = scoreRepo;
         }
+
+        private static string F(int seconds) => TimeSpan.FromSeconds(seconds).ToString(@"m\:ss");
 
         //POST /api/Scores2
         [HttpPost]
@@ -51,7 +56,8 @@ namespace MemoryGameAPI.Controllers
                 var newScoreCreatedMessage = new
                 {
                     Success = true,
-                    Message = "User is first time player. Score has been created"
+                    Message = $"Welcome! First score recorded: {F(reqCompletionTimeSeconds)}."
+
                 };
                 return new ObjectResult(newScoreCreatedMessage);
             }
@@ -75,7 +81,7 @@ namespace MemoryGameAPI.Controllers
                 var newScoreUpdatedMessage = new
                 {
                     Success = true,
-                    Message = "User's Score has been updated"
+                    Message = $"New personal best: {F(reqCompletionTimeSeconds)} 🎉"
                 };
                 return new ObjectResult(newScoreUpdatedMessage);
             }
@@ -85,7 +91,7 @@ namespace MemoryGameAPI.Controllers
             var noScoreUpdatedMessage = new
             {
                 Success = true,
-                Message = "User did not perform better than previous attempt. No records were updated"
+                Message = $"Nice effort — your best time stays at {F(existingScore.CompletionTimeSeconds)}."
             };
             return new ObjectResult(noScoreUpdatedMessage);
         }
